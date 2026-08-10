@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><defs>
+<linearGradient id="butter" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDEEB0"></stop><stop offset="1" stop-color="#F3D25C"></stop></linearGradient>
+<linearGradient id="fold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E5C55E"></stop><stop offset="1" stop-color="#C79400"></stop></linearGradient>
+<linearGradient id="mintD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFE9D8"></stop><stop offset="1" stop-color="#AFD8C0"></stop></linearGradient>
+<linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9E7FB"></stop><stop offset="1" stop-color="#BFD5F5"></stop></linearGradient>
+<linearGradient id="check" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#31A76F"></stop><stop offset="1" stop-color="#1C7C50"></stop></linearGradient>
+<linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9273EE"></stop><stop offset="1" stop-color="#6141C9"></stop></linearGradient>
+<linearGradient id="tagG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7D558"></stop><stop offset="1" stop-color="#C79400"></stop></linearGradient>
+<linearGradient id="ground" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#FCF4E0"></stop></linearGradient>
+<filter id="drop" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#8A6E1C" flood-opacity="0.26"></feDropShadow></filter>
+<filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#8A6E1C" flood-opacity="0.22"></feDropShadow></filter></defs><rect width="1024" height="1024" rx="230" fill="url(#ground)"></rect><g filter="url(#soft)"><rect x="150" y="330" width="316" height="404" rx="54" fill="url(#mintD)" transform="rotate(-15 308 532)"></rect></g>
+<g filter="url(#soft)"><rect x="222" y="300" width="322" height="416" rx="54" fill="url(#skyD)" stroke="#FFFFFF" stroke-width="22" transform="rotate(-7 383 508)"></rect></g>
+<g filter="url(#drop)"><path d="M405 236h320a75 75 0 0 1 75 75v263l-132 132h-263a75 75 0 0 1 -75 -75v-320a75 75 0 0 1 75 -75z" fill="url(#butter)" stroke="#FFFFFF" stroke-width="22" stroke-linejoin="round"></path><path d="M800 574l-132 132v-57a75 75 0 0 1 75 -75z" fill="url(#fold)"></path></g>
+<rect x="404" y="360" width="288" height="42" rx="21" fill="#4A3B00" opacity="0.46"></rect><rect x="404" y="452" width="216" height="42" rx="21" fill="#4A3B00" opacity="0.3"></rect>
+<g filter="url(#soft)"><circle cx="742" cy="750" r="188" fill="#FFFDF6"></circle><circle cx="742" cy="750" r="156" fill="url(#violet)"></circle><g transform="translate(742 750) scale(1.02)"><path d="M0 -92C12 -35 35 -12 92 0C35 12 12 35 0 92C-12 35 -35 12 -92 0C-35 -12 -12 -35 0 -92Z" fill="#FFFFFF"></path></g></g></svg>
