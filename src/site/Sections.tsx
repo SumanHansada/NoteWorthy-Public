@@ -54,7 +54,7 @@ export function Features() {
     >
       <Scatter />
       <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
-        Notes that think for themselves, and never phone home.
+        You write the note. It does the rest.
       </h2>
       <p className="mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
         NoteWorthy writes your titles, summarizes your notes, cleans up your

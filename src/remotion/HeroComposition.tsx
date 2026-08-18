@@ -137,7 +137,7 @@ export const HeroComposition: React.FC<HeroProps> = ({
         >
           ✈
         </span>
-        No network required
+        No Internet required
       </div>
 
       <div
@@ -182,7 +182,21 @@ export const HeroComposition: React.FC<HeroProps> = ({
             }}
           >
             {RAW.slice(0, typed)}
-            {frame < 85 && frame % 16 < 8 ? "▌" : ""}
+            {/* A real caret rather than the "▌" block glyph: block-drawing
+                characters render at wildly different widths per font, and the
+                heavy bar read as a highlight rather than as an insertion point. */}
+            {frame < 85 && frame % 16 < 8 ? (
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 2,
+                  height: isPortrait ? 22 : 27,
+                  marginLeft: 3,
+                  background: onCard,
+                  verticalAlign: "text-bottom",
+                }}
+              />
+            ) : null}
           </div>
 
           {/* Structured — fades in on Format, back out on Summarize */}

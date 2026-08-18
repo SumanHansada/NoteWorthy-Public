@@ -1,47 +1,9 @@
 import { Player } from "@remotion/player";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { HeroComposition, heroDuration } from "../remotion/HeroComposition";
 import { CountUp } from "./Bits";
 import { PILLARS } from "./data";
 import { AccentPicker, useTheme } from "./theme";
-
-function AnimatedPlaneBadge() {
-  const [landed, setLanded] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setLanded(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <span
-      ref={ref}
-      className="inline-flex items-center gap-2 overflow-hidden rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-accent-ink sm:text-sm dark:text-accent"
-    >
-      <span
-        className="inline-block transition-all duration-[2000ms] cubic-bezier(0.16, 1, 0.3, 1)"
-        style={{
-          transform: landed ? "translateX(0)" : "translateX(-180px)",
-          opacity: landed ? 1 : 0,
-        }}
-      >
-        ✈
-      </span>
-      <span>Works in airplane mode. Always.</span>
-    </span>
-  );
-}
 
 export function Hero() {
   const { accent, scheme } = useTheme();
@@ -77,7 +39,7 @@ export function Hero() {
   }, [accent, scheme]);
 
   return (
-    <header className="relative overflow-hidden px-5 pt-28 pb-16 sm:px-8 sm:pt-36 lg:pb-24">
+    <header className="relative overflow-hidden px-5 pt-32 pb-16 sm:px-8 sm:pt-44 lg:pb-24">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[70rem] -translate-x-1/2 rounded-full opacity-45 blur-3xl"
@@ -89,14 +51,15 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <AnimatedPlaneBadge />
-
-          {/* 2rem at base: "without the internet." is 21 characters and overran
-              a narrow phone once the side padding was taken off. */}
-          <h1 className="mt-7 text-[2rem] leading-[1.1] font-bold tracking-tight text-balance sm:text-6xl lg:text-7xl">
-            Notes that think,
+          {/* The App Store title and subtitle, verbatim. The sizes step up in
+              four stages rather than three: the accent line is 26 characters,
+              and at the old 7xl it came within a pixel of the 48rem column, so
+              a slightly wider fallback font would have dropped "Fully offline."
+              onto a third line on desktop only. */}
+          <h1 className="text-[2rem] leading-[1.1] font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-[4rem]">
+            Notes that think.
             <br />
-            <span className="text-accent-ink">without the internet.</span>
+            <span className="text-accent-ink">AI-Powered. Fully Offline.</span>
           </h1>
 
           <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-xl">
