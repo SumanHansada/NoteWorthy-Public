@@ -44,6 +44,25 @@ export type HeroProps = {
   scheme: "light" | "dark";
 };
 
+/** A silicon die. Drawn rather than an emoji, so it can wear the note tint. */
+function SiliconIcon({ size }: { size: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+    >
+      <rect x="7" y="7" width="10" height="10" rx="2.5" />
+      <rect x="10.5" y="10.5" width="3" height="3" rx="1" fill="currentColor" stroke="none" />
+      <path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3" />
+    </svg>
+  );
+}
+
 export const HeroComposition: React.FC<HeroProps> = ({
   cardTop = "#FCEFB4",
   cardBottom = "#F9E48F",
@@ -85,13 +104,34 @@ export const HeroComposition: React.FC<HeroProps> = ({
     extrapolateRight: "clamp",
     easing: Easing.bezier(0.16, 1, 0.3, 1),
   });
-  const planeStartDist = isPortrait ? -260 : -750;
+  // Short enough that the plane no longer crosses the chip opposite.
+  const planeStartDist = -260;
   const planeX = interpolate(planeFlyProgress, [0, 1], [planeStartDist, 0]);
 
   const onCard = cardFg;
   const subtle = (a: number) => `${cardFg}${Math.round(a * 255).toString(16).padStart(2, "0")}`;
 
   const cardWidth = isPortrait ? Math.min(480, width - 40) : 640;
+
+  const chip: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: isPortrait ? 8 : 10,
+    padding: isPortrait ? "6px 12px" : "10px 18px",
+    borderRadius: 999,
+    border: `1px solid ${accent}66`,
+    background: `${accent}1f`,
+    color: accentInk,
+    fontSize: isPortrait ? 15 : 20,
+    fontWeight: 600,
+    whiteSpace: "nowrap",
+  };
+
+  const chipIconIn = interpolate(frame, [5, 55], [0.55, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.bezier(0.16, 1, 0.3, 1),
+  });
 
   return (
     <AbsoluteFill
@@ -101,43 +141,54 @@ export const HeroComposition: React.FC<HeroProps> = ({
           : `radial-gradient(120% 100% at 20% 0%, #ffffff 0%, ${cardBottom}66 100%)`,
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: isPortrait ? 68 : 0,
+        paddingTop: isPortrait ? 64 : 0,
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
       }}
     >
-      {/* The whole point, stated once and left up. */}
+      {/* The two claims, stated once and left up. Portrait takes the card's own
+          width so the pair sits on its edges rather than bunched mid-frame. */}
       <div
         style={{
           position: "absolute",
           top: isPortrait ? 20 : 40,
           ...(isPortrait
-            ? { left: "50%", transform: "translateX(-50%)" }
-            : { right: 48 }),
-          display: "flex",
+            ? {
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: cardWidth,
+              }
+            : { left: 48, right: 48 }),
+          justifyContent: "space-between",
           alignItems: "center",
-          gap: 10,
-          padding: isPortrait ? "8px 16px" : "10px 18px",
-          borderRadius: 999,
-          border: `1px solid ${accent}66`,
-          background: `${accent}1f`,
-          color: accentInk,
-          fontSize: isPortrait ? 17 : 20,
-          fontWeight: 600,
-          whiteSpace: "nowrap",
+          display: "flex",
           opacity: interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" }),
         }}
       >
-        <span
-          style={{
-            fontSize: isPortrait ? 19 : 22,
-            display: "inline-block",
-            transform: `translateX(${planeX}px)`,
-          }}
-        >
-          ✈
-        </span>
-        No Internet required
+        <div style={chip}>
+          <span
+            style={{
+              display: "flex",
+              transform: `scale(${chipIconIn})`,
+            }}
+          >
+            <SiliconIcon size={isPortrait ? 17 : 22} />
+          </span>
+          Uses Apple Intelligence
+        </div>
+
+        <div style={chip}>
+          <span
+            style={{
+              fontSize: isPortrait ? 17 : 22,
+              display: "inline-block",
+              transform: `translateX(${planeX}px)`,
+            }}
+          >
+            ✈
+          </span>
+          No Internet Required
+        </div>
       </div>
 
       <div

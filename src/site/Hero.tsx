@@ -1,8 +1,8 @@
 import { Player } from "@remotion/player";
 import { useEffect, useState } from "react";
 import { HeroComposition, heroDuration } from "../remotion/HeroComposition";
-import { CountUp } from "./Bits";
-import { PILLARS } from "./data";
+import { AppStoreBadge, CountUp } from "./Bits";
+import { LINKS, PILLARS } from "./data";
 import { AccentPicker, useTheme } from "./theme";
 
 export function Hero() {
@@ -68,10 +68,24 @@ export function Hero() {
             with.
           </p>
 
-          <div className="mt-9 flex justify-center">
+          {/* Apple's badge is fixed artwork with an 8.5/40 radius that cannot
+              become a pill, so the button matches the badge. The radius is
+              stated twice because it tracks the height: 48px -> 10.24,
+              52px -> 11.05. `flex-wrap` rather than a breakpoint, so the pair
+              drops to stacked on its own when 350px stops being enough. */}
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <a
+              href={LINKS.appStore}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Download NoteWorthy on the App Store"
+              className="inline-block rounded-[0.64rem] transition hover:opacity-85 sm:rounded-[0.7rem]"
+            >
+              <AppStoreBadge className="h-12 w-auto sm:h-[3.25rem]" />
+            </a>
             <a
               href="#features"
-              className="w-full cursor-pointer rounded-full bg-accent px-8 py-3.5 text-center font-semibold text-on-accent transition hover:opacity-90 sm:w-auto"
+              className="inline-flex h-12 cursor-pointer items-center justify-center rounded-[0.64rem] border border-line px-5 text-center text-sm font-semibold transition hover:border-accent hover:text-accent-ink sm:h-[3.25rem] sm:rounded-[0.7rem] sm:px-7 sm:text-base"
             >
               See How it Works
             </a>
@@ -88,7 +102,7 @@ export function Hero() {
         </div>
 
         {/* Responsive wrapper: 4:5 vertical portrait on mobile, 16:9 landscape on desktop */}
-        <div className="mt-14 aspect-[4/5] overflow-hidden rounded-2xl border border-line shadow-[var(--shadow)] sm:mt-20 sm:aspect-video sm:rounded-3xl">
+        <div className="mt-14 aspect-[27/28] overflow-hidden rounded-2xl border border-line shadow-[var(--shadow)] sm:mt-20 sm:aspect-video sm:rounded-3xl">
           <Player
             component={HeroComposition}
             // Re-keyed on the theme so the composition re-reads its colours;
@@ -97,7 +111,7 @@ export function Hero() {
             inputProps={{ ...tint, scheme }}
             durationInFrames={heroDuration}
             compositionWidth={isMobile ? 540 : 1280}
-            compositionHeight={isMobile ? 675 : 720}
+            compositionHeight={isMobile ? 560 : 720}
             fps={30}
             loop
             autoPlay={motionOK}

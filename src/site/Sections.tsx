@@ -34,11 +34,15 @@ export function Nav() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <SchemeSwitcher />
+          {/* Hidden below `sm`: it does not fit beside the mark and the
+              scheme switcher, and the hero badge is right there. */}
           <a
-            href="#features"
+            href={LINKS.appStore}
+            target="_blank"
+            rel="noreferrer noopener"
             className="hidden cursor-pointer rounded-full bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition hover:opacity-90 sm:inline-block"
           >
-            Explore
+            Download
           </a>
         </div>
       </div>

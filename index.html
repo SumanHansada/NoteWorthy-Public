@@ -9,27 +9,67 @@
     <title>NoteWorthy: Notes That Think — AI-Powered. Fully Offline.</title>
     <meta
       name="description"
-      content="On-device AI notes for iPhone, iPad and Mac. Titles, summaries and filing are written by Apple Intelligence on your device — no account, no upload, no network requests at all."
+      content="Write the note. NoteWorthy titles, summarizes and files it for you, on your iPhone. No account, no upload, no network requests. Download on the App Store."
     />
     <meta
       name="keywords"
-      content="note, notes, ai, markdown, offline, private, checklist, todo, widget, shortcuts, summarize, organize, label"
+      content="noteworthy,note worthy,noteworthy app,noteworthy notes,noteworthy ios,noteworthy iphone,noteworty,notewothy,note-worthy,noteworthy notes that think,ai notes,ai notes app,ai note taking,ai note taking app,offline notes,offline notes app,offline ai,private notes,private notes app,private notes iphone,on-device ai,on device ai notes,apple intelligence,apple intelligence notes,apple intelligence app,markdown notes,markdown notes app,markdown editor ios,notes app iphone,notes app ipad,sticky notes app,note organizer,ai summarizer,summarize notes,checklist app,todo notes,no account notes app,notes without internet"
     />
     <meta name="author" content="Suman Hansada" />
+    <link rel="canonical" href="https://noteworthy.wtf/" />
 
-    <!-- Link previews. Relative so the build works from any host or path. -->
+    <!-- Link previews. Absolute: crawlers will not resolve a relative og:image. -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://noteworthy.wtf/" />
+    <meta property="og:site_name" content="NoteWorthy" />
     <meta
       property="og:title"
       content="NoteWorthy: Notes That Think — AI-Powered. Fully Offline."
     />
     <meta
       property="og:description"
-      content="Titles, summaries and filing written by Apple Intelligence on your iPhone — no account, no upload, nothing to trust us with."
+      content="Titles, summaries and filing written by Apple Intelligence, right on your iPhone."
     />
-    <meta property="og:image" content="./shots/iphone/light-02-home.png" />
+    <meta
+      property="og:image"
+      content="https://noteworthy.wtf/shots/iphone/light-02-home.png"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="@SumanHansada" />
+
+    <!-- iOS. The Smart App Banner opens an installed app rather than the store. -->
+    <meta name="apple-itunes-app" content="app-id=6799721933" />
+
+    <!-- Inert until there is a clip: an unresolvable app-clip-bundle-id costs
+         you the working banner above. Fill it in, then swap the two tags.
+    <meta
+      name="apple-itunes-app"
+      content="app-id=6799721933, app-clip-bundle-id=YOUR.APP.CLIP.BUNDLE.ID, app-clip-display=card"
+    />
+    -->
+    <meta name="apple-mobile-web-app-title" content="NoteWorthy" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta property="al:ios:app_store_id" content="6799721933" />
+    <meta property="al:ios:app_name" content="NoteWorthy" />
+    <meta name="twitter:app:name:iphone" content="NoteWorthy" />
+    <meta name="twitter:app:id:iphone" content="6799721933" />
+    <meta name="twitter:app:name:ipad" content="NoteWorthy" />
+    <meta name="twitter:app:id:ipad" content="6799721933" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "NoteWorthy: Notes That Think",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "iOS 18.0 or later, iPadOS 18.0 or later",
+        "url": "https://noteworthy.wtf/",
+        "installUrl": "https://apps.apple.com/app/id6799721933",
+        "downloadUrl": "https://apps.apple.com/app/id6799721933",
+        "description": "On-device AI notes for iPhone and iPad. Titles, summaries and filing are written by Apple Intelligence on your device — no account, no upload, no network requests at all.",
+        "author": { "@type": "Person", "name": "Suman Hansada" }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

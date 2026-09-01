@@ -9,6 +9,8 @@ import type { Scheme } from "./theme";
  */
 
 export const LINKS = {
+  // No storefront in the path, so each visitor lands in their own region.
+  appStore: "https://apps.apple.com/app/id6799721933",
   github: "https://github.com/sumanhansada",
   linkedin: "https://www.linkedin.com/in/sumanhansada/",
   x: "https://x.com/SumanHansada",
