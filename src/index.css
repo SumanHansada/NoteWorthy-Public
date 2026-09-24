@@ -3,7 +3,7 @@
 /*
   Two independent axes.
 
-  `data-scheme` on <html> is light or dark, and is always one of those two —
+  `data-scheme` on <html> is light or dark, and is always one of those two.
   "System" is resolved in JS and written here as the concrete value, so the CSS
   never has to reason about a third state.
 
@@ -137,7 +137,7 @@ html {
 
 body {
   /* The accent, washed across the whole page rather than only behind the fold
-     — the same warmth the welcome screen has, so the site feels like the app
+     with the same warmth the welcome screen has, so the site feels like the app
      rather than a dark slab with screenshots on it. Fixed attachment keeps the
      wash still while the content scrolls over it. */
   background:

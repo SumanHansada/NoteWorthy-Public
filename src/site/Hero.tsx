@@ -51,21 +51,18 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          {/* The App Store title and subtitle, verbatim. The sizes step up in
-              four stages rather than three: the accent line is 26 characters,
-              and at the old 7xl it came within a pixel of the 48rem column, so
-              a slightly wider fallback font would have dropped "Fully offline."
-              onto a third line on desktop only. */}
+          {/* The sizes step up in four stages so the promise stays comfortably
+              readable without overpowering the product name. */}
           <h1 className="text-[2rem] leading-[1.1] font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-[4rem]">
-            Notes that think.
-            <br />
-            <span className="text-accent-ink">AI-Powered. Fully Offline.</span>
+            NoteWorthy
           </h1>
 
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-xl">
-            Titles, summaries and filing are written by Apple Intelligence,
-            right on your iPhone. No account, no upload, nothing to trust us
-            with.
+          <p className="mx-auto mt-5 max-w-3xl text-2xl leading-tight font-semibold tracking-tight text-balance text-accent-ink sm:text-4xl">
+            Your notes. Smarter. Private by design.
+          </p>
+
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-xl">
+            Available for iPhone, iPad and Mac.
           </p>
 
           {/* Apple's badge is fixed artwork with an 8.5/40 radius that cannot
@@ -79,20 +76,20 @@ export function Hero() {
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Download NoteWorthy on the App Store"
-              className="inline-block rounded-[0.64rem] transition hover:opacity-85 sm:rounded-[0.7rem]"
+              className="inline-flex h-12 w-36 items-center justify-center rounded-[0.64rem] transition hover:opacity-85 sm:h-[3.25rem] sm:w-[9.75rem] sm:rounded-[0.7rem]"
             >
-              <AppStoreBadge className="h-12 w-auto sm:h-[3.25rem]" />
+              <AppStoreBadge className="block h-full w-full" />
             </a>
             <a
               href="#features"
-              className="inline-flex h-12 cursor-pointer items-center justify-center rounded-[0.64rem] border border-line px-5 text-center text-sm font-semibold transition hover:border-accent hover:text-accent-ink sm:h-[3.25rem] sm:rounded-[0.7rem] sm:px-7 sm:text-base"
+              className="inline-flex h-12 w-36 cursor-pointer items-center justify-center rounded-[0.64rem] border border-accent bg-accent text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[9.75rem] sm:rounded-[0.7rem] sm:text-base"
             >
               See How it Works
             </a>
           </div>
 
-          {/* Six note colours. The page picks one at random on load — the same
-              thing a new note does — and these change it for everything. */}
+          {/* Six note colours. The page picks one at random on load, just as a
+              new note does, and these change it for everything. */}
           <div className="mt-9">
             <p className="mb-3 text-xs tracking-wide text-fg-faint uppercase">
               Pick a paper color
@@ -116,10 +113,10 @@ export function Hero() {
             loop
             autoPlay={motionOK}
             controls={!motionOK}
-            // Frame 0 is an empty card — the text has not typed itself yet. If
+            // Frame 0 is an empty card because the text has not typed itself yet. If
             // the animation is not going to run, open on the finished state
             // instead, which is the frame that actually makes the point.
-            // `?frame=300` opens on a chosen frame — the only way to inspect a
+            // `?frame=300` opens on a chosen frame, the only way to inspect a
             // late phase of a looping animation in a still.
             initialFrame={
               motionOK

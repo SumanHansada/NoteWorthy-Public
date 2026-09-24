@@ -12,7 +12,7 @@ import {
  * Format), then collapses to a sentence (AI Summarize), files itself, and never
  * touches the network.
  *
- * Drawn entirely in code — no images, no web fonts — so the player starts
+ * Drawn entirely in code, with no images or web fonts, so the player starts
  * instantly and cannot show a half-loaded frame. On a page whose whole claim is
  * "no network", that felt like the right constraint.
  *
@@ -250,7 +250,7 @@ export const HeroComposition: React.FC<HeroProps> = ({
             ) : null}
           </div>
 
-          {/* Structured — fades in on Format, back out on Summarize */}
+          {/* Structured: fades in on Format, back out on Summarize */}
           <div style={{ position: "absolute", inset: 0, opacity: morph * (1 - summarized) }}>
             {STRUCTURED.map((row, i) => {
               const appear = spring({
@@ -290,7 +290,7 @@ export const HeroComposition: React.FC<HeroProps> = ({
             })}
           </div>
 
-          {/* Summary — one sentence */}
+          {/* Summary: one sentence */}
           <div
             style={{
               position: "absolute",

@@ -27,9 +27,9 @@ export function Nav() {
 
         <div className="hidden items-center gap-7 text-sm text-fg-muted lg:flex">
           <a href="#features" className="transition hover:text-fg">Features</a>
-          <a href="#models" className="transition hover:text-fg">On-device AI</a>
+          <a href="#models" className="transition hover:text-fg">On-Device AI</a>
           <a href="#screens" className="transition hover:text-fg">Screens</a>
-          <a href="#soon" className="transition hover:text-fg">Coming soon</a>
+          <a href="#soon" className="transition hover:text-fg">Coming Soon</a>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -119,8 +119,8 @@ export function Features() {
         </p>
         <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-8">
           {[
-            { name: "02-home", caption: "iPad — sidebar and board" },
-            { name: "04-new-note", caption: "iPad — capture" },
+            { name: "02-home", caption: "iPad: sidebar and board" },
+            { name: "04-new-note", caption: "iPad: capture" },
           ].map((g) => (
             <figure key={g.name}>
               <DeviceMock name={g.name} kind="ipad" alt={g.caption} className="mx-auto w-full" />
@@ -278,7 +278,7 @@ export function ComingSoon() {
     <section id="soon" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
       <div className="rounded-3xl border border-line bg-bg-soft p-7 sm:p-14">
         <span className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
-          Coming soon
+          Coming Soon
         </span>
         <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-4xl">
           Two more, on the same terms

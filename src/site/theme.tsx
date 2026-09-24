@@ -29,7 +29,7 @@ type ThemeValue = {
   setAccent: (a: AccentId) => void;
   pref: SchemePref;
   setPref: (p: SchemePref) => void;
-  /** "system" already resolved — what is actually on screen. */
+  /** "system" already resolved: what is actually on screen. */
   scheme: Scheme;
 };
 
@@ -42,10 +42,10 @@ function systemScheme(): Scheme {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // A different note colour on every visit — the same delight the app gives
+  // A different note colour on every visit, the same delight the app gives
   // when a new note picks its own tint. Deliberately not persisted.
   const [accent, setAccent] = useState<AccentId>(() => {
-    // `?accent=mint` pins a colour — handy for sharing a particular look, and
+    // `?accent=mint` pins a colour. It is handy for sharing a particular look and
     // the only way to screenshot a specific one when the default is random.
     const wanted = new URLSearchParams(window.location.search).get("accent");
     if (ACCENTS.some((a) => a.id === wanted)) return wanted as AccentId;
@@ -67,7 +67,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     pref === "system" ? systemScheme() : pref,
   );
 
-  // Follow the OS live while on "system" — someone with an automatic day/night
+  // Follow the OS live while on "system" so someone with an automatic day/night
   // switch should see the page turn with everything else.
   useEffect(() => {
     if (pref !== "system") {
@@ -83,7 +83,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Written during render, not in an effect. React runs child effects *before*
   // parent ones, so a child reading `getComputedStyle` in its own effect saw
-  // the previous theme's variables — the hero animation stayed butter while
+  // the previous theme's variables, so the hero animation stayed butter while
   // the rest of the page had already turned lavender. Setting the attributes
   // here means they are in place before any child effect runs. Idempotent, and
   // scoped to <html>, so it is safe to repeat on every render.
