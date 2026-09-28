@@ -72,16 +72,26 @@ export function Hero() {
             </a>
           </div>
 
-          {/* The App Store stays the primary way in. Homebrew is the quieter
-              second option for people who live in a terminal, and it is the
-              same Mac app, so it sits under the buttons rather than beside them.
+          {/* The App Store stays the primary way in. The DMG and Homebrew are
+              the same notarized Mac app from outside the store, so they sit
+              under the buttons rather than beside them: the download for most
+              people, the command for those who live in a terminal.
               Only where someone could run it: a large screen with a mouse or
               trackpad. That leaves out phones and tablets, including an iPad
-              wide enough to pass for a laptop, whose pointer is a finger. */}
-          <div className="mt-6 hidden flex-col items-center gap-2.5 lg:pointer-fine:flex">
-            <p className="text-sm text-fg-muted">
-              {MAC_APP_STORE_LIVE ? "On a Mac? Also on Homebrew." : "On a Mac? Install it with Homebrew."}
-            </p>
+              wide enough to pass for a laptop, whose pointer is a finger, and
+              nobody on a phone starts a 200 MB download by accident. */}
+          <div className="mt-7 hidden flex-col items-center gap-2.5 lg:pointer-fine:flex">
+            <a
+              href={LINKS.macDownload}
+              className="inline-flex items-center gap-2 rounded-xl border border-line bg-bg-raised px-4 py-2 text-sm font-semibold transition hover:border-accent hover:text-accent-ink"
+            >
+              <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M8 2.5v8M4.5 7 8 10.5 11.5 7M3 13.5h10" />
+              </svg>
+              Download for Mac
+              <span className="font-normal text-fg-faint">.dmg</span>
+            </a>
+            <p className="text-sm text-fg-muted">or install it with Homebrew</p>
             <CopyCommand command={BREW_INSTALL} />
             <p className="text-xs text-fg-faint">
               Apple silicon, macOS 26 or later.

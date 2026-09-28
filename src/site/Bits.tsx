@@ -242,9 +242,22 @@ export function CopyCommand({ command, className = "" }: { command: string; clas
         type="button"
         onClick={copy}
         aria-label={copied ? "Copied" : "Copy command"}
-        className="shrink-0 cursor-pointer rounded-lg px-2.5 py-1 text-xs font-semibold text-accent-ink transition hover:bg-bg"
+        title={copied ? "Copied" : "Copy"}
+        className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent-ink transition hover:bg-bg"
       >
-        <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+        {/* The usual two overlapping squares, turning to a tick once copied.
+            The label above still says which, for VoiceOver. */}
+        <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          {copied ? (
+            <path d="M3.5 8.5 6.5 11.5 12.5 4.5" />
+          ) : (
+            <>
+              <rect x="5.5" y="5.5" width="8" height="8" rx="1.75" />
+              <path d="M10.5 5.5V3.75c0-.69-.56-1.25-1.25-1.25h-5.5c-.69 0-1.25.56-1.25 1.25v5.5c0 .69.56 1.25 1.25 1.25H5.5" />
+            </>
+          )}
+        </svg>
+        <span aria-live="polite" className="sr-only">{copied ? "Copied" : ""}</span>
       </button>
     </div>
   );

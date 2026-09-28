@@ -1,6 +1,7 @@
 import { Hero } from "./site/Hero";
 import {
   ComingSoon,
+  Faq,
   Features,
   Footer,
   Models,
@@ -23,6 +24,7 @@ export default function App() {
           <Models />
           <Privacy />
           <ComingSoon />
+          <Faq />
         </main>
         <Footer />
       </div>
