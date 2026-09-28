@@ -40,11 +40,14 @@
     <!-- iOS. The Smart App Banner opens an installed app rather than the store. -->
     <meta name="apple-itunes-app" content="app-id=6799721933" />
 
-    <!-- Inert until there is a clip: an unresolvable app-clip-bundle-id costs
-         you the working banner above. Fill it in, then swap the two tags.
+    <!-- The App Clip banner. Swap it for the tag above only once the app
+         version carrying the clip is live on the App Store: until then the
+         clip bundle ID does not resolve, and an unresolvable one costs you the
+         working banner above. The bundle ID is the one in App Store Connect's
+         App Clip links; the plain one, without the team prefix.
     <meta
       name="apple-itunes-app"
-      content="app-id=6799721933, app-clip-bundle-id=YOUR.APP.CLIP.BUNDLE.ID, app-clip-display=card"
+      content="app-id=6799721933, app-clip-bundle-id=com.sumanhansada.noteworthy.Clip, app-clip-display=card"
     />
     -->
     <meta name="apple-mobile-web-app-title" content="NoteWorthy" />
