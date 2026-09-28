@@ -508,6 +508,10 @@ export function Footer() {
           exactly as well for writing, filing and search. Built by Suman
           Hansada.
         </p>
+        {/* The year comes from the reader's clock, so it never goes stale. */}
+        <p className="mt-3 text-xs text-fg-faint">
+          © {new Date().getFullYear()} Suman Hansada. All rights reserved.
+        </p>
       </div>
     </footer>
   );
