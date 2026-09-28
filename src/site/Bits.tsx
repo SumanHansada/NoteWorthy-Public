@@ -161,8 +161,10 @@ export function NoteCard({ note, className = "" }: { note: ScatterNote; classNam
  * Apple ships the badge black-on-light and white-on-dark, and the page flips
  * between the two on a toggle that is not the OS setting, so one static file
  * would be wrong in one of the schemes. Proportions follow Apple's badge.
+ * `mac` draws the Mac App Store variant, which is the same artwork made wider
+ * for the longer name.
  */
-export function AppStoreBadge({ className = "" }: { className?: string }) {
+export function AppStoreBadge({ className = "", mac = false }: { className?: string; mac?: boolean }) {
   const { scheme } = useTheme();
   const dark = scheme === "dark";
   const bg = dark ? "#FFFFFF" : "#000000";
@@ -171,12 +173,12 @@ export function AppStoreBadge({ className = "" }: { className?: string }) {
 
   return (
     <svg
-      viewBox="0 0 120 40"
+      viewBox={`0 0 ${mac ? 156 : 120} 40`}
       role="img"
-      aria-label="Download on the App Store"
+      aria-label={`Download on the ${mac ? "Mac App Store" : "App Store"}`}
       className={className}
     >
-      <rect x="0.5" y="0.5" width="119" height="39" rx="8.5" fill={bg} stroke={edge} />
+      <rect x="0.5" y="0.5" width={mac ? 155 : 119} height="39" rx="8.5" fill={bg} stroke={edge} />
       <g transform="translate(6 3) scale(1.2)" fill={ink}>
         <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
       </g>
@@ -197,8 +199,53 @@ export function AppStoreBadge({ className = "" }: { className?: string }) {
         fontWeight="400"
         fontFamily="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
       >
-        App Store
+        {mac ? "Mac App Store" : "App Store"}
       </text>
     </svg>
+  );
+}
+
+/**
+ * A one-line shell command with a copy button.
+ *
+ * The button says "Copied" for a moment rather than toasting, so there is
+ * nothing to dismiss. If the clipboard is refused (an insecure context, a
+ * denied permission) the text is still selectable by hand.
+ */
+export function CopyCommand({ command, className = "" }: { command: string; className?: string }) {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(false), 1600);
+    return () => clearTimeout(t);
+  }, [copied]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(command);
+      setCopied(true);
+    } catch {
+      // Leave the command on screen for a manual copy.
+    }
+  };
+
+  return (
+    <div
+      className={`flex max-w-full items-center gap-2 rounded-xl border border-line bg-bg-soft py-1.5 pr-1.5 pl-3.5 ${className}`}
+    >
+      <code className="min-w-0 overflow-x-auto font-mono text-xs whitespace-nowrap text-fg sm:text-sm">
+        <span aria-hidden className="text-fg-faint select-none">$ </span>
+        {command}
+      </code>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? "Copied" : "Copy command"}
+        className="shrink-0 cursor-pointer rounded-lg px-2.5 py-1 text-xs font-semibold text-accent-ink transition hover:bg-bg"
+      >
+        <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+      </button>
+    </div>
   );
 }

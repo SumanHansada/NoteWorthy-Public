@@ -63,7 +63,7 @@ export function Features() {
       <p className="mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
         NoteWorthy writes your titles, summarizes your notes, cleans up your
         formatting and files everything into the right place. All of it runs on
-        your iPhone.
+        your own iPhone, iPad or Mac.
       </p>
 
       <div className="mt-14 space-y-20 sm:mt-20 sm:space-y-32">
@@ -106,18 +106,32 @@ export function Features() {
         ))}
       </div>
 
-      {/* Universal, shown once with the tablet rather than as its own gallery
-          of the same phone screens over again. */}
+      {/* Universal, shown once with the Mac and the tablet rather than as its
+          own gallery of the same phone screens over again. */}
       <div id="screens" className="mt-20 scroll-mt-24 sm:mt-32">
         <h3 className="text-2xl font-bold tracking-tight text-balance sm:text-4xl">
-          Universal for iPhone and iPad
+          Universal for iPhone, iPad and Mac
         </h3>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
-          A sidebar and a note board on iPad, sticky notes on your iPhone,
-          and the same library everywhere. These follow whichever appearance you
-          picked above.
+          Sticky notes on your iPhone, a sidebar and a note board on iPad, and
+          on the Mac a notebook that waits on the edge of your screen. The same
+          library everywhere. These follow whichever appearance you picked
+          above.
         </p>
-        <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-8">
+
+        <figure className="mt-8 sm:mt-10">
+          <DeviceMock
+            name="01-tasks"
+            kind="mac"
+            alt="Mac: the Tasks board, open from the rail of labels on the edge of the screen"
+            className="mx-auto w-full max-w-4xl"
+          />
+          <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
+            Mac: your labels on the edge of the screen, one click away
+          </figcaption>
+        </figure>
+
+        <div className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 sm:gap-8">
           {[
             { name: "02-home", caption: "iPad: sidebar and board" },
             { name: "04-new-note", caption: "iPad: capture" },
@@ -188,7 +202,7 @@ export function Models() {
           On-device intelligence
         </span>
         <h2 className="mt-3 max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
-          Two models. Both on your phone.
+          Two models. Both on your device.
         </h2>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
           One writes, the other decides where things go. Neither can reach the

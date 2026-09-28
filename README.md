@@ -1,7 +1,7 @@
 # NoteWorthy marketing site
 
-React + Vite + Tailwind v4, with a Remotion composition played inline for the
-hero animation.
+React + Vite + Tailwind v4. The hero is the 90-second "Everywhere" film
+(iPhone, iPad, Mac), looping muted from `public/video/`.
 
 ```bash
 npm install
@@ -10,19 +10,32 @@ npm run build    # → dist/
 npm run preview  # serve the built site
 ```
 
-## Remotion, and what it is doing here
+## The hero film
 
-Remotion renders React to video. It is not a website framework, so the site
-itself is plain React; Remotion appears through `@remotion/player`, which plays
-`src/remotion/HeroComposition.tsx` in the browser as the hero.
+`public/video/everywhere-1080.mp4` is a muted 1080p/30 cut of
+`video/library/renders/noteworthy-everywhere-v10-plain-16x9-4k.mp4` from the
+NoteWorthy repo, about 4 MB. The poster is its frame at 1:20, the one with all
+three devices on screen (the film opens on a blank gradient). To re-cut:
 
-That composition is drawn entirely in code, with no images or web fonts, so it
-starts instantly and cannot show a half-loaded frame. On a page whose whole
-claim is "no network", that felt worth the constraint.
+```bash
+ffmpeg -i noteworthy-everywhere-v10-plain-16x9-4k.mp4 -an \
+  -vf "scale=1920:1080:flags=lanczos,fps=30" -c:v libx264 -profile:v high \
+  -pix_fmt yuv420p -preset slow -crf 30 -movflags faststart everywhere-1080.mp4
+```
 
-If you ever want it as an actual video (an App Store preview, a social clip),
-the composition is already in the right shape: add `@remotion/cli`, register it
-in a `Root.tsx`, and `npx remotion render`.
+Phones (below 640px) get `everywhere-720x1280.mp4` instead, the same edit cut
+from `noteworthy-everywhere-v10-plain-9x16-4k.mp4` at 720x1280 (CRF 29, about
+3 MB), capped at 75% of the screen's height. Its "Watch with sound" opens the
+vertical upload, a Short, rather than the wide video.
+
+It is served from this site rather than embedded from YouTube so that the page
+calls nobody until the reader asks. "Watch with sound" swaps in the
+youtube-nocookie player at the loop's current time.
+
+`src/remotion/HeroComposition.tsx` is the code-drawn note card that was the
+hero before the Mac shipped. It is no longer on the page; it is kept because it
+is already in the shape to render as a clip (`@remotion/cli`, a `Root.tsx`,
+`npx remotion render`).
 
 ## Theming
 
@@ -53,12 +66,11 @@ now set during render, which is idempotent and safe on `<html>`.
 - `?scheme=light|dark` and `?accent=butter|sky|blossom|mint|lavender|graphite`
   pin a look for sharing a particular one, and the only way to screenshot a
   specific combination when the default is random.
-- `?frame=300` picks the hero's opening frame.
 
 ## `?static=1`
 
-Freezes the hero on one frame and shows the player controls. Added because a
-looping player never lets a headless browser's virtual clock settle, so the
+Holds the hero film on its poster and shows the video controls. Added because a
+looping video never lets a headless browser's virtual clock settle, so the
 page could not be screenshotted to check the layout. It doubles as an escape
 hatch for anyone who wants the page to hold still. `prefers-reduced-motion` is
 honoured separately and does the same thing automatically.
@@ -68,6 +80,10 @@ honoured separately and does the same thing automatically.
 - `public/shots/`: App Store screenshots, iPhone (1320×2868) and iPad
   (2064×2752), light and dark. Generated from the app by
   `Tools/capture_app_store_shots.sh` in the NoteWorthy repo.
+- `public/shots/mac/`: the Mac Tasks board, light and dark, 2160 wide WebP,
+  from `video/library/media/stills-{light,dark}/mac.png` in the NoteWorthy repo.
+  It sits in `public/mockups/macbook-{silver,midnight}.png` (silver in light,
+  midnight in dark), whose screen hole is exactly the capture's 2880x1864.
 - `public/icons/`: from the app icon set. `mark.svg` is the gradient-amber
   `stackai` mark, the same artwork as the app icon.
 

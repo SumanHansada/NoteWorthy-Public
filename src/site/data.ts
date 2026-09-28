@@ -11,9 +11,40 @@ import type { Scheme } from "./theme";
 export const LINKS = {
   // No storefront in the path, so each visitor lands in their own region.
   appStore: "https://apps.apple.com/app/id6799721933",
+  // Same listing. On a Mac either link opens the Mac App Store; in a browser
+  // elsewhere this one shows the Mac version's page rather than the iPhone's.
+  macAppStore: "https://apps.apple.com/app/id6799721933?platform=mac",
   github: "https://github.com/sumanhansada",
   linkedin: "https://www.linkedin.com/in/sumanhansada/",
   x: "https://x.com/SumanHansada",
+};
+
+// The Mac build is also a notarized direct download, published as a Homebrew
+// cask. The qualified name taps and installs in one command.
+export const BREW_INSTALL = "brew install --cask sumanhansada/tap/noteworthy";
+
+// The Mac app is in review for the Mac App Store, under the same listing as
+// the iPhone app (Universal Purchase), so the badge needs no new URL. Flip this
+// once the Mac version is live; until then Homebrew is the only way onto a Mac.
+export const MAC_APP_STORE_LIVE = false;
+
+// The 90-second "Everywhere" film: iPhone, then iPad, then Mac. The hero
+// loops a muted copy from public/video; these are the YouTube uploads, for
+// sound. Wide on desktop, the vertical cut (uploaded as a Short) on phones.
+// Both cuts are the same edit to the frame, so a timestamp from one loop is
+// the same moment in either upload.
+export const FILM = {
+  title: "NoteWorthy: AI Notes, Private by Design | iPhone, iPad & Mac",
+  wide: {
+    youtube: "4ylp5x53fYA",
+    src: "video/everywhere-1080.mp4",
+    poster: "video/everywhere-poster.webp",
+  },
+  tall: {
+    youtube: "qTsQO3UMi-I",
+    src: "video/everywhere-720x1280.mp4",
+    poster: "video/everywhere-poster-720x1280.webp",
+  },
 };
 
 export const PILLARS = [
@@ -27,8 +58,12 @@ export const PILLARS = [
  * scheme the reader is in, so the shots never look like a different product
  * from the page around them.
  */
-export const shot = (scheme: Scheme, name: string, device: "iphone" | "ipad" = "iphone") =>
-  `shots/${device}/${scheme}-${name}.png`;
+export type Device = "iphone" | "ipad" | "mac";
+
+// The Mac shots are WebP: they are wide desktop captures with a soft gradient
+// behind the window, which is 2 MB as PNG and under 100 KB as WebP.
+export const shot = (scheme: Scheme, name: string, device: Device = "iphone") =>
+  `shots/${device}/${scheme}-${name}.${device === "mac" ? "webp" : "png"}`;
 
 export type Feature = {
   id: string;

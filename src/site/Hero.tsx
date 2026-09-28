@@ -1,43 +1,15 @@
-import { Player } from "@remotion/player";
-import { useEffect, useState } from "react";
-import { HeroComposition, heroDuration } from "../remotion/HeroComposition";
-import { AppStoreBadge, CountUp } from "./Bits";
-import { LINKS, PILLARS } from "./data";
-import { AccentPicker, useTheme } from "./theme";
+import { useEffect, useRef, useState } from "react";
+import { AppStoreBadge, CopyCommand, CountUp } from "./Bits";
+import { BREW_INSTALL, FILM, LINKS, MAC_APP_STORE_LIVE, PILLARS } from "./data";
+import { AccentPicker } from "./theme";
 
 export function Hero() {
-  const { accent, scheme } = useTheme();
-
   const [motionOK, setMotionOK] = useState(true);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const forcedStatic = new URLSearchParams(window.location.search).has("static");
     setMotionOK(!reduced && !forcedStatic);
   }, []);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const [tint, setTint] = useState({
-    cardTop: "#FCEFB4", cardBottom: "#F9E48F", cardFg: "#4A3B00",
-    accent: "#C79400", accentInk: "#896600",
-  });
-  useEffect(() => {
-    const css = getComputedStyle(document.documentElement);
-    const v = (n: string) => css.getPropertyValue(n).trim();
-    setTint({
-      cardTop: v("--card-top"),
-      cardBottom: v("--card-bottom"),
-      cardFg: v("--card-fg"),
-      accent: v("--accent"),
-      accentInk: v("--accent-ink"),
-    });
-  }, [accent, scheme]);
-
   return (
     <header className="relative overflow-hidden px-5 pt-32 pb-16 sm:px-8 sm:pt-44 lg:pb-24">
       <div
@@ -80,12 +52,40 @@ export function Hero() {
             >
               <AppStoreBadge className="block h-full w-full" />
             </a>
+            {/* 156/40 wide, so the width is the height times 3.9. */}
+            {MAC_APP_STORE_LIVE && (
+              <a
+                href={LINKS.macAppStore}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Download NoteWorthy on the Mac App Store"
+                className="inline-flex h-12 w-[11.7rem] items-center justify-center rounded-[0.64rem] transition hover:opacity-85 sm:h-[3.25rem] sm:w-[12.675rem] sm:rounded-[0.7rem]"
+              >
+                <AppStoreBadge mac className="block h-full w-full" />
+              </a>
+            )}
             <a
               href="#features"
               className="inline-flex h-12 w-36 cursor-pointer items-center justify-center rounded-[0.64rem] border border-accent bg-accent text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[9.75rem] sm:rounded-[0.7rem] sm:text-base"
             >
               See How it Works
             </a>
+          </div>
+
+          {/* The App Store stays the primary way in. Homebrew is the quieter
+              second option for people who live in a terminal, and it is the
+              same Mac app, so it sits under the buttons rather than beside them.
+              Only where someone could run it: a large screen with a mouse or
+              trackpad. That leaves out phones and tablets, including an iPad
+              wide enough to pass for a laptop, whose pointer is a finger. */}
+          <div className="mt-6 hidden flex-col items-center gap-2.5 lg:pointer-fine:flex">
+            <p className="text-sm text-fg-muted">
+              {MAC_APP_STORE_LIVE ? "On a Mac? Also on Homebrew." : "On a Mac? Install it with Homebrew."}
+            </p>
+            <CopyCommand command={BREW_INSTALL} />
+            <p className="text-xs text-fg-faint">
+              Apple silicon, macOS 26 or later.
+            </p>
           </div>
 
           {/* Six note colours. The page picks one at random on load, just as a
@@ -98,34 +98,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Responsive wrapper: 4:5 vertical portrait on mobile, 16:9 landscape on desktop */}
-        <div className="mt-14 aspect-[27/28] overflow-hidden rounded-2xl border border-line shadow-[var(--shadow)] sm:mt-20 sm:aspect-video sm:rounded-3xl">
-          <Player
-            component={HeroComposition}
-            // Re-keyed on the theme so the composition re-reads its colours;
-            // Remotion memoises inputProps aggressively otherwise.
-            key={`${accent}-${scheme}-${isMobile}`}
-            inputProps={{ ...tint, scheme }}
-            durationInFrames={heroDuration}
-            compositionWidth={isMobile ? 540 : 1280}
-            compositionHeight={isMobile ? 560 : 720}
-            fps={30}
-            loop
-            autoPlay={motionOK}
-            controls={!motionOK}
-            // Frame 0 is an empty card because the text has not typed itself yet. If
-            // the animation is not going to run, open on the finished state
-            // instead, which is the frame that actually makes the point.
-            // `?frame=300` opens on a chosen frame, the only way to inspect a
-            // late phase of a looping animation in a still.
-            initialFrame={
-              motionOK
-                ? 0
-                : Number(new URLSearchParams(window.location.search).get("frame")) || 235
-            }
-            style={{ width: "100%", height: "100%", display: "block" }}
-          />
-        </div>
+        <HeroFilm motionOK={motionOK} />
 
         <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-3 gap-4 sm:mt-16 sm:gap-8">
           {PILLARS.map((p) => (
@@ -141,5 +114,100 @@ export function Hero() {
         </dl>
       </div>
     </header>
+  );
+}
+
+// Tailwind's `sm`. Below it the page is a phone, and a phone gets the
+// vertical cut.
+const PHONE = "(max-width: 639px)";
+
+/**
+ * The "Everywhere" film, muted and looping, from this site rather than YouTube.
+ *
+ * A hero has to play on its own, and a YouTube embed that autoplays would have
+ * the page call Google before the reader did anything, on a site whose pitch
+ * is an app that makes no network requests. So the loop is a small cut of the
+ * master served from here, and YouTube only appears when someone asks for
+ * sound, picking up where the loop was.
+ *
+ * Phones get the 9:16 cut and the matching Short. The choice is made before
+ * the first render, so a phone never starts downloading the wide file.
+ *
+ * With reduced motion (or `?static=1`) it holds on the poster, the frame where
+ * all three devices are on screen, and shows the native controls instead.
+ */
+function HeroFilm({ motionOK }: { motionOK: boolean }) {
+  const video = useRef<HTMLVideoElement>(null);
+  const [youtubeAt, setYoutubeAt] = useState<number | null>(null);
+  const [tall, setTall] = useState(() => window.matchMedia(PHONE).matches);
+
+  useEffect(() => {
+    const mq = window.matchMedia(PHONE);
+    const onChange = () => setTall(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const cut = tall ? FILM.tall : FILM.wide;
+
+  const watchWithSound = () => {
+    const t = Math.floor(video.current?.currentTime ?? 0);
+    video.current?.pause();
+    setYoutubeAt(t);
+  };
+
+  return (
+    <div
+      className={
+        "relative mx-auto mt-14 overflow-hidden rounded-2xl border border-line bg-bg-soft shadow-[var(--shadow)] sm:mt-20 sm:rounded-3xl " +
+        // 9:16 at full phone width is nearly the whole screen, which pushes
+        // everything else off it. Capped at 75% of the screen's height, with
+        // the width following, so the next section still peeks in.
+        (tall ? "aspect-[9/16] w-full max-w-[calc(75svh*9/16)]" : "aspect-video")
+      }
+    >
+      {youtubeAt === null ? (
+        <>
+          <video
+            ref={video}
+            // Keyed so a change of cut or of reduced motion re-mounts with the
+            // right attributes; React does not re-apply `autoPlay` to a live
+            // element.
+            key={`${cut.src}-${motionOK}`}
+            src={cut.src}
+            poster={cut.poster}
+            aria-label={FILM.title}
+            muted
+            loop
+            playsInline
+            autoPlay={motionOK}
+            controls={!motionOK}
+            preload={motionOK ? "auto" : "none"}
+            className="block h-full w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={watchWithSound}
+            className="absolute top-3 right-3 inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-black/75 sm:top-5 sm:right-5 sm:px-4 sm:py-2 sm:text-sm"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="currentColor" aria-hidden>
+              <path d="M8 5.5v13a1 1 0 0 0 1.52.85l10.4-6.5a1 1 0 0 0 0-1.7L9.52 4.65A1 1 0 0 0 8 5.5z" />
+            </svg>
+            Watch with sound
+          </button>
+        </>
+      ) : (
+        <iframe
+          src={
+            `https://www.youtube-nocookie.com/embed/${cut.youtube}` +
+            `?autoplay=1&rel=0&playsinline=1${youtubeAt ? `&start=${youtubeAt}` : ""}`
+          }
+          title={FILM.title}
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full"
+        />
+      )}
+    </div>
   );
 }
