@@ -29,8 +29,11 @@ export function Hero() {
             NoteWorthy
           </h1>
 
+          {/* The App Store title and subtitle, "NoteWorthy: Smart Notes" and
+              "Private on-device AI", so the page and the listing say the
+              same thing. */}
           <p className="mx-auto mt-5 max-w-3xl text-2xl leading-tight font-semibold tracking-tight text-balance text-accent-ink sm:text-4xl">
-            Your notes. Smarter. Private by design.
+            Smart notes. Private on-device AI.
           </p>
 
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-xl">
