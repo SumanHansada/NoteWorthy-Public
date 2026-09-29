@@ -32,7 +32,7 @@ export const LINKS = {
 
 // For privacy questions and anything else. Written out in full wherever it
 // appears, so it can be copied as well as clicked.
-export const CONTACT_EMAIL = "sumansjs@gmail.com";
+export const CONTACT_EMAIL = "suman.hansada@gmail.com";
 
 // The same notarized Mac build is also a Homebrew cask. The qualified name taps
 // and installs in one command.
@@ -279,7 +279,7 @@ export const TAGS = [
  *
  * Change the date whenever the text changes.
  */
-export const PRIVACY_UPDATED = "28 September 2026";
+export const PRIVACY_UPDATED = "29 September 2026";
 export const PRIVACY_CHANGES =
   `If any of this changes, this page changes first, with a new date. Questions about privacy, or anything else: ${CONTACT_EMAIL}.`;
 
