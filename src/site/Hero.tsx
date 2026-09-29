@@ -47,20 +47,24 @@ export function Hero() {
             Available for iPhone, iPad and Mac.
           </p>
 
-          {/* Apple's badge is fixed artwork with an 8.5/40 radius that cannot
-              become a pill, so the button matches the badge. The radius is
-              stated twice because it tracks the height: 48px -> 10.24,
-              52px -> 11.05. `flex-wrap` rather than a breakpoint, so the pair
-              drops to stacked on its own when 350px stops being enough. */}
+          {/* Apple's badge is fixed artwork, 135 x 40, so the button beside it
+              takes the same size: 48px tall is 162px wide, 52px is 175.5px.
+              Both take the corners of "Download for Mac" below them rather
+              than the badge's own, so the hero's buttons share one radius.
+              `flex-wrap` rather than a breakpoint, so the pair drops to
+              stacked on its own when there stops being room. */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <a
               href={LINKS.appStore}
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Download NoteWorthy on the App Store"
-              className="inline-flex h-12 w-36 items-center justify-center rounded-[0.64rem] transition hover:opacity-85 sm:h-[3.25rem] sm:w-[9.75rem] sm:rounded-[0.7rem]"
+              className="relative inline-flex h-12 w-[10.125rem] items-center justify-center overflow-hidden rounded-xl transition hover:opacity-85 sm:h-[3.25rem] sm:w-[10.97rem]"
             >
               <AppStoreBadge className="block h-full w-full" />
+              {/* Rounding the link clips off the artwork's own grey edge at
+                  the corners, so the edge is drawn again along the new curve. */}
+              <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#A6A6A6]" />
             </a>
             {/* 156/40 wide, so the width is the height times 3.9. */}
             {MAC_APP_STORE_LIVE && (
@@ -76,7 +80,7 @@ export function Hero() {
             )}
             <a
               href="#features"
-              className="inline-flex h-12 w-36 cursor-pointer items-center justify-center rounded-[0.64rem] border border-accent bg-accent text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[9.75rem] sm:rounded-[0.7rem] sm:text-base"
+              className="inline-flex h-12 w-[10.125rem] cursor-pointer items-center justify-center rounded-xl border border-accent bg-accent text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[10.97rem] sm:text-base"
             >
               See How it Works
             </a>

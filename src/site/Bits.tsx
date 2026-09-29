@@ -167,6 +167,20 @@ export function NoteCard({ note, className = "" }: { note: ScatterNote; classNam
 export function AppStoreBadge({ className = "", mac = false }: { className?: string; mac?: boolean }) {
   const { scheme } = useTheme();
   const dark = scheme === "dark";
+
+  // Apple's own artwork for the App Store badge, in both colourways: black on
+  // the light page, white on the dark one. The Mac badge has no file of its
+  // own yet, so it stays drawn below.
+  if (!mac) {
+    return (
+      <img
+        src={`badges/app-store-${dark ? "white" : "black"}.svg`}
+        alt="Download on the App Store"
+        className={className}
+      />
+    );
+  }
+
   const bg = dark ? "#FFFFFF" : "#000000";
   const ink = dark ? "#000000" : "#FFFFFF";
   const edge = dark ? "#00000022" : "#FFFFFF33";
