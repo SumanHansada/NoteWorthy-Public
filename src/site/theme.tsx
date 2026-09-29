@@ -1,6 +1,5 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -35,8 +34,6 @@ type ThemeValue = {
 
 const ThemeContext = createContext<ThemeValue | null>(null);
 
-const PREF_KEY = "noteworthy-scheme";
-
 function systemScheme(): Scheme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
@@ -52,15 +49,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return ACCENTS[Math.floor(Math.random() * ACCENTS.length)].id;
   });
 
-  // The light/dark choice *is* persisted: a colour surprise is charming, a
-  // display mode that forgets itself is not.
-  const [pref, setPrefState] = useState<SchemePref>(() => {
+  // Every visit starts on "system", so the page matches the device it is read
+  // on. Picking Light or Dark lasts until the next load and is not saved.
+  // `?scheme=light|dark` still pins one, for screenshots.
+  const [pref, setPref] = useState<SchemePref>(() => {
     const forced = new URLSearchParams(window.location.search).get("scheme");
-    if (forced === "light" || forced === "dark") return forced;
-    const saved = localStorage.getItem(PREF_KEY);
-    return saved === "light" || saved === "dark" || saved === "system"
-      ? saved
-      : "system";
+    return forced === "light" || forced === "dark" ? forced : "system";
   });
 
   const [resolved, setResolved] = useState<Scheme>(() =>
@@ -119,11 +113,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", resolved === "dark" ? "#0d0b06" : "#fbf8f0");
   }, [resolved]);
-
-  const setPref = useCallback((p: SchemePref) => {
-    setPrefState(p);
-    localStorage.setItem(PREF_KEY, p);
-  }, []);
 
   const value = useMemo(
     () => ({ accent, setAccent, pref, setPref, scheme: resolved }),

@@ -118,41 +118,73 @@ export function Nav() {
             aria-expanded={open}
             aria-controls="section-menu"
             onClick={() => setOpen((o) => !o)}
-            className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-line bg-bg-soft text-fg transition hover:border-accent lg:hidden"
+            className={`relative h-9 w-9 cursor-pointer rounded-full border transition duration-300 active:scale-90 lg:hidden ${
+              open
+                ? "border-accent bg-accent text-on-accent"
+                : "border-line bg-bg-soft text-fg hover:border-accent"
+            }`}
           >
-            <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden>
-              {open ? (
-                <path d="M5 5l10 10M15 5L5 15" />
-              ) : (
-                <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />
-              )}
-            </svg>
+            {/* Three bars that fold into a cross: the outer two meet in the
+                middle and turn, the middle one shrinks away. The easing
+                overshoots a touch so the cross settles like a spring. */}
+            {[
+              open ? "translate(-50%, -50%) rotate(45deg)" : "translate(-50%, calc(-50% - 5px))",
+              open ? "translate(-50%, -50%) scaleX(0)" : "translate(-50%, -50%)",
+              open ? "translate(-50%, -50%) rotate(-45deg)" : "translate(-50%, calc(-50% + 5px))",
+            ].map((transform, i) => (
+              <span
+                key={i}
+                aria-hidden
+                style={{ transform, opacity: open && i === 1 ? 0 : 1 }}
+                className="absolute top-1/2 left-1/2 h-[1.75px] w-4 rounded-full bg-current transition-[transform,opacity] duration-400 ease-[cubic-bezier(0.3,1.35,0.5,1)]"
+              />
+            ))}
           </button>
         </div>
       </div>
 
-      {open && (
-        <>
-          {/* Tapping anywhere below the menu dismisses it. Absolute rather
-              than fixed: the bar's backdrop-filter makes it the containing
-              block for fixed children anyway. */}
+      {/* Always mounted so it can animate both ways. Tapping anywhere below
+          the menu dismisses it. Absolute rather than fixed: the bar's
+          backdrop-filter makes it the containing block for fixed children
+          anyway. */}
+      <div
+        aria-hidden
+        onClick={() => setOpen(false)}
+        className={`absolute inset-x-0 top-full h-screen bg-black/20 transition-opacity duration-300 lg:hidden ${
+          open ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+      {/* Height animates through the grid-rows trick: 0fr to 1fr is the one
+          way to transition to an unknown height without measuring it. */}
+      <div
+        id="section-menu"
+        inert={!open}
+        className={`grid transition-[grid-template-rows] duration-400 ease-[cubic-bezier(0.2,0.9,0.3,1)] lg:hidden ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
           <div
-            aria-hidden
-            onClick={() => setOpen(false)}
-            className="absolute inset-x-0 top-full h-screen bg-black/20 lg:hidden"
-          />
-          <div
-            id="section-menu"
-            className="relative border-t border-line bg-bg px-4 pt-2 pb-4 shadow-[var(--shadow)] sm:px-8 lg:hidden"
+            className={`border-t border-line bg-bg px-4 pt-2 pb-4 transition-shadow duration-300 sm:px-8 ${
+              open ? "shadow-[var(--shadow)]" : ""
+            }`}
           >
             <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-2">
-              {SECTIONS.map((s) => (
-                <li key={s.id}>
+              {SECTIONS.map((s, i) => (
+                <li
+                  key={s.id}
+                  // Each link drops in a beat after the one before it on the
+                  // way open, and they all leave together on the way closed.
+                  style={{ transitionDelay: open ? `${80 + i * 35}ms` : "0ms" }}
+                  className={`transition duration-300 ease-out ${
+                    open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
+                  }`}
+                >
                   <a
                     href={`#${s.id}`}
                     onClick={() => setOpen(false)}
                     aria-current={active === s.id ? "location" : undefined}
-                    className={`block rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                    className={`block rounded-xl border px-4 py-3 text-sm font-medium transition active:scale-[0.97] ${
                       active === s.id
                         ? "border-accent bg-accent text-on-accent"
                         : "border-line bg-bg-raised text-fg hover:border-accent"
@@ -164,8 +196,8 @@ export function Nav() {
               ))}
             </ul>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </nav>
   );
 }
