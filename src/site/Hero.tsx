@@ -5,10 +5,17 @@ import { AccentPicker } from "./theme";
 
 export function Hero() {
   const [motionOK, setMotionOK] = useState(true);
+  const [isIOS, setIsIOS] = useState(false);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const forcedStatic = new URLSearchParams(window.location.search).has("static");
     setMotionOK(!reduced && !forcedStatic);
+    // An iPad on iPadOS 13+ reports itself as a Mac, and gives itself away
+    // only by having a touch screen.
+    setIsIOS(
+      /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+        (navigator.userAgent.includes("Macintosh") && navigator.maxTouchPoints > 1),
+    );
   }, []);
   return (
     <header className="relative overflow-hidden px-5 pt-32 pb-16 sm:px-8 sm:pt-44 lg:pb-24">
@@ -74,6 +81,21 @@ export function Hero() {
               See How it Works
             </a>
           </div>
+
+          {/* The App Clip only opens on an iPhone or iPad, so everyone else
+              never sees the offer. */}
+          {isIOS && (
+            <a
+              href={LINKS.appClip}
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-ink transition hover:opacity-80"
+            >
+              Try it without installing
+              <span className="font-normal text-fg-faint">· App Clip</span>
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M6 3.5 10.5 8 6 12.5" />
+              </svg>
+            </a>
+          )}
 
           {/* The App Store stays the primary way in. The DMG and Homebrew are
               the same notarized Mac app from outside the store, so they sit

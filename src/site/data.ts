@@ -14,6 +14,12 @@ export const LINKS = {
   // Same listing. On a Mac either link opens the Mac App Store; in a browser
   // elsewhere this one shows the Mac version's page rather than the iPhone's.
   macAppStore: "https://apps.apple.com/app/id6799721933?platform=mac",
+  // The App Clip, from App Store Connect. The default link opens the clip's
+  // card on an iPhone or iPad without installing the app; the demo link is
+  // Apple's always-available variant, for sharing and for review.
+  appClip: "https://appclip.apple.com/id?p=com.sumanhansada.noteworthy.Clip",
+  appClipDemo:
+    "https://apps.apple.com/demo/id6799721933?app-clip-bundle-id=com.sumanhansada.noteworthy.Clip",
   github: "https://github.com/sumanhansada",
   linkedin: "https://www.linkedin.com/in/sumanhansada/",
   x: "https://x.com/SumanHansada",

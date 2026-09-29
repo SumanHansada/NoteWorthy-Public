@@ -84,6 +84,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   if (typeof document !== "undefined") {
     document.documentElement.dataset.accent = accent;
     document.documentElement.dataset.scheme = resolved;
+    // Tells the browser too, not only our CSS. Without it Safari guessed the
+    // Smart App Banner's appearance on its own and, with the page in Dark on a
+    // phone in Light, drew white text on the cream background.
+    document.documentElement.style.colorScheme = resolved;
   }
 
   // The pointer wears the active theme accent color, maintaining crisp shape.
@@ -108,10 +112,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.setProperty("--cursor-arrow", cursor(24, 24, arrow, 4, 3));
   }, [accent, resolved]);
 
+  // Both tags, whatever their media query: once someone picks Light or Dark
+  // the bar should follow the page, not the device.
   useEffect(() => {
     document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", resolved === "dark" ? "#0d0b06" : "#fbf8f0");
+      .querySelectorAll('meta[name="theme-color"]')
+      .forEach((m) => m.setAttribute("content", resolved === "dark" ? "#0d0b06" : "#fbf8f0"));
   }, [resolved]);
 
   const value = useMemo(
