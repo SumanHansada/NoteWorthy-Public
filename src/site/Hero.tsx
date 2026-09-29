@@ -85,16 +85,29 @@ export function Hero() {
           {/* The App Clip only opens on an iPhone or iPad, so everyone else
               never sees the offer. */}
           {isIOS && (
-            <a
-              href={LINKS.appClip}
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-ink transition hover:opacity-80"
-            >
-              Try it without installing
-              <span className="font-normal text-fg-faint">· App Clip</span>
-              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M6 3.5 10.5 8 6 12.5" />
-              </svg>
-            </a>
+            <div className="mt-5">
+              <a
+                href={LINKS.appClip}
+                className="group inline-flex items-center gap-2.5 rounded-full border border-accent/40 bg-accent/10 py-2 pr-3 pl-2 text-sm font-semibold text-accent-ink shadow-[0_0_0_4px_rgb(var(--glow)/0.25)] transition active:scale-[0.97]"
+              >
+                {/* Apple's App Clip mark, roughly: a dot inside a dotted ring. */}
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-on-accent">
+                  <svg viewBox="0 0 20 20" className="h-4.5 w-4.5" fill="none" stroke="currentColor" aria-hidden>
+                    <circle cx="10" cy="10" r="7" strokeWidth="1.6" strokeDasharray="2.2 1.8" strokeLinecap="round" />
+                    <circle cx="10" cy="10" r="3" fill="currentColor" stroke="none" />
+                  </svg>
+                </span>
+                <span>
+                  Try it without installing
+                  <span className="ml-1.5 rounded-full bg-accent/15 px-1.5 py-0.5 text-[0.7rem] font-semibold tracking-wide uppercase">
+                    App Clip
+                  </span>
+                </span>
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 transition-transform group-active:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M6 3.5 10.5 8 6 12.5" />
+                </svg>
+              </a>
+            </div>
           )}
 
           {/* The App Store stays the primary way in. The DMG and Homebrew are
