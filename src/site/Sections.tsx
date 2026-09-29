@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { NoteCard } from "./Bits";
 import { DeviceMock } from "./DeviceMock";
 import {
@@ -22,28 +22,150 @@ function Mark({ className = "" }: { className?: string }) {
   return <img src={`icons/mark-${scheme}.svg`} alt="" className={className} />;
 }
 
+const SECTIONS = [
+  { id: "features", label: "Features" },
+  { id: "models", label: "On-Device AI" },
+  { id: "screens", label: "Screens" },
+  { id: "privacy", label: "Privacy" },
+  { id: "soon", label: "Coming Soon" },
+  { id: "faq", label: "FAQ" },
+];
+
+/**
+ * The section the reader is in: the last one whose top has passed a line a
+ * third of the way down the screen. Recomputed on scroll rather than with an
+ * IntersectionObserver because `#screens` sits inside `#features`, and "the
+ * last one past the line" handles the nesting without special cases.
+ */
+function useActiveSection() {
+  const [active, setActive] = useState<string | null>(null);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const line = window.innerHeight / 3;
+      let current: string | null = null;
+      for (const { id } of SECTIONS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+  return active;
+}
+
 export function Nav() {
+  const active = useActiveSection();
+  const [open, setOpen] = useState(false);
+
+  // Escape closes the menu, and so does growing the window past the point
+  // where the inline links take over.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const wide = window.matchMedia("(min-width: 1024px)");
+    const onWide = () => wide.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    wide.addEventListener("change", onWide);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      wide.removeEventListener("change", onWide);
+    };
+  }, [open]);
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-8">
-        <a href="#top" className="flex shrink-0 items-center gap-2.5">
+        <a href="#top" onClick={() => setOpen(false)} className="flex shrink-0 items-center gap-2.5">
           <Mark className="h-8 w-8 rounded-lg sm:h-9 sm:w-9" />
           <span className="font-semibold tracking-tight sm:text-lg">NoteWorthy</span>
         </a>
 
         <div className="hidden items-center gap-7 text-sm text-fg-muted lg:flex">
-          <a href="#features" className="transition hover:text-fg">Features</a>
-          <a href="#models" className="transition hover:text-fg">On-Device AI</a>
-          <a href="#screens" className="transition hover:text-fg">Screens</a>
-          <a href="#privacy" className="transition hover:text-fg">Privacy</a>
-          <a href="#soon" className="transition hover:text-fg">Coming Soon</a>
-          <a href="#faq" className="transition hover:text-fg">FAQ</a>
+          {SECTIONS.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              aria-current={active === s.id ? "location" : undefined}
+              className={`transition hover:text-fg ${active === s.id ? "font-semibold text-fg" : ""}`}
+            >
+              {s.label}
+            </a>
+          ))}
         </div>
 
         {/* No download button up here: the hero's badge, DMG and Homebrew
             command are the ways in, and a fourth one in the bar was noise. */}
-        <SchemeSwitcher />
+        <div className="flex items-center gap-2">
+          <SchemeSwitcher />
+          {/* Below `lg` the six links do not fit, so they fold into a menu
+              rather than leaving a phone with nothing but the scroll. */}
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="section-menu"
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-line bg-bg-soft text-fg transition hover:border-accent lg:hidden"
+          >
+            <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden>
+              {open ? (
+                <path d="M5 5l10 10M15 5L5 15" />
+              ) : (
+                <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <>
+          {/* Tapping anywhere below the menu dismisses it. Absolute rather
+              than fixed: the bar's backdrop-filter makes it the containing
+              block for fixed children anyway. */}
+          <div
+            aria-hidden
+            onClick={() => setOpen(false)}
+            className="absolute inset-x-0 top-full h-screen bg-black/20 lg:hidden"
+          />
+          <div
+            id="section-menu"
+            className="relative border-t border-line bg-bg px-4 pt-2 pb-4 shadow-[var(--shadow)] sm:px-8 lg:hidden"
+          >
+            <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-2">
+              {SECTIONS.map((s) => (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    onClick={() => setOpen(false)}
+                    aria-current={active === s.id ? "location" : undefined}
+                    className={`block rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                      active === s.id
+                        ? "border-accent bg-accent text-on-accent"
+                        : "border-line bg-bg-raised text-fg hover:border-accent"
+                    }`}
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </nav>
   );
 }
@@ -336,30 +458,56 @@ export function Privacy() {
   );
 }
 
+/** Line glyphs in the accent ink, so they follow the paper colour. */
+function SoonIcon({ name }: { name: "cloud" | "people" }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      {name === "cloud" ? (
+        <>
+          <path d="M7 18.5h10.5a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.6 9.5 4.5 4.5 0 0 0 7 18.5z" />
+          <path d="M9.25 13.75l2 2 3.75-4" />
+        </>
+      ) : (
+        <>
+          <circle cx="9" cy="8.5" r="3.25" />
+          <path d="M3.25 19a5.75 5.75 0 0 1 11.5 0" />
+          <circle cx="16.5" cy="9.5" r="2.5" />
+          <path d="M16 14.3a4.75 4.75 0 0 1 5 4.7" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function ComingSoon() {
   return (
+    // Laid out like `Models`: heading on the page's own left edge and the
+    // cards on the same grid, rather than boxed inside a panel of its own.
     <section id="soon" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
-      <div className="rounded-3xl border border-line bg-bg-soft p-7 sm:p-14">
-        <span className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
-          Coming Soon
-        </span>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-4xl">
-          Two more, on the same terms
-        </h2>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 sm:gap-10">
-          {COMING_SOON.map((c) => (
-            <div key={c.title} className="rounded-2xl border border-line bg-bg-raised p-6">
-              <h3 className="text-lg font-semibold sm:text-xl">{c.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-pretty text-fg-muted sm:text-base">
-                {c.body}
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-7 text-xs text-fg-faint sm:text-sm">
-          Announced, not shipped, and not purchasable until they work.
-        </p>
+      <span className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+        Coming Soon
+      </span>
+      <h2 className="mt-3 max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
+        Two more, on the same terms.
+      </h2>
+
+      <div className="mt-10 grid gap-6 sm:mt-14 md:grid-cols-2 lg:gap-8">
+        {COMING_SOON.map((c) => (
+          <div key={c.title} className="rounded-3xl border border-line bg-bg-raised p-6 sm:p-9">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15 text-accent-ink">
+              <SoonIcon name={c.icon} />
+            </span>
+            <h3 className="mt-4 text-xl font-bold tracking-tight sm:text-2xl">{c.title}</h3>
+            <p className="mt-3.5 text-sm leading-relaxed text-pretty text-fg-muted sm:text-base">
+              {c.body}
+            </p>
+          </div>
+        ))}
       </div>
+
+      <p className="mt-7 text-xs leading-relaxed text-fg-faint sm:text-sm">
+        Announced, not shipped, and not purchasable until they work.
+      </p>
     </section>
   );
 }

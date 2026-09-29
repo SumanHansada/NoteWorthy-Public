@@ -246,12 +246,14 @@ export const SCATTER = [
   },
 ];
 
-export const COMING_SOON = [
+export const COMING_SOON: { icon: "cloud" | "people"; title: string; body: string }[] = [
   {
+    icon: "cloud",
     title: "iCloud Sync",
     body: "Your notes on every device, through your own iCloud account. Nothing passes through our servers.",
   },
   {
+    icon: "people",
     title: "Shared Notes",
     body: "Hand a note, or a whole label, to someone else over that same private channel.",
   },

@@ -90,6 +90,9 @@
   --card-bottom: var(--card-l2);
   --card-fg: var(--card-fg-l);
   --on-accent: #ffffff;
+  /* The segmented control, in iOS's own greys. */
+  --seg-track: rgb(118 118 128 / 0.12);
+  --seg-thumb: #ffffff;
 }
 
 [data-scheme="dark"] {
@@ -108,6 +111,8 @@
   --card-bottom: var(--card-d);
   --card-fg: var(--card-fg-d);
   --on-accent: #ffffff;
+  --seg-track: rgb(118 118 128 / 0.24);
+  --seg-thumb: #636366;
 }
 
 /* ── Semantic utilities ──────────────────────────────────────────────────── */

@@ -139,7 +139,11 @@ export function useTheme() {
   return ctx;
 }
 
-/** Light / Dark / System, as a three-way segmented control. */
+/**
+ * Light / Dark / System, as an iOS segmented control: a grey track with one
+ * raised thumb that slides to the chosen segment. The segments are equal
+ * widths so the thumb's position is just its index times its own width.
+ */
 export function SchemeSwitcher() {
   const { pref, setPref } = useTheme();
   const options: { id: SchemePref; label: string; glyph: string }[] = [
@@ -147,13 +151,19 @@ export function SchemeSwitcher() {
     { id: "dark", label: "Dark", glyph: "☾" },
     { id: "system", label: "System", glyph: "◐" },
   ];
+  const index = options.findIndex((o) => o.id === pref);
 
   return (
     <div
       role="radiogroup"
       aria-label="Color scheme"
-      className="flex items-center gap-0.5 rounded-full border border-line bg-bg-soft p-0.5"
+      className="relative grid grid-cols-3 rounded-full bg-[var(--seg-track)] p-0.5"
     >
+      <span
+        aria-hidden
+        className="absolute inset-y-0.5 left-0.5 w-[calc((100%-0.25rem)/3)] rounded-full bg-[var(--seg-thumb)] shadow-[0_1px_3px_rgb(0_0_0/0.12),0_1px_1px_rgb(0_0_0/0.04),0_0_0_0.5px_rgb(0_0_0/0.04)] transition-transform duration-300 ease-[cubic-bezier(0.3,1.25,0.5,1)]"
+        style={{ transform: `translateX(${index * 100}%)` }}
+      />
       {options.map((o) => (
         <button
           key={o.id}
@@ -162,10 +172,8 @@ export function SchemeSwitcher() {
           aria-label={o.label}
           title={o.label}
           onClick={() => setPref(o.id)}
-          className={`cursor-pointer rounded-full px-2.5 py-1 text-xs transition sm:px-3 sm:py-1.5 ${
-            pref === o.id
-              ? "bg-accent text-on-accent font-semibold"
-              : "text-fg-muted hover:text-fg"
+          className={`relative cursor-pointer rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition-colors sm:px-3 sm:py-1.5 ${
+            pref === o.id ? "font-semibold text-fg" : "text-fg-muted hover:text-fg"
           }`}
         >
           <span aria-hidden>{o.glyph}</span>
