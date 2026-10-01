@@ -323,7 +323,7 @@ export const PRIVACY_POLICY: PolicyItem[] = [
   },
   {
     title: "This website",
-    body: "No cookies and no analytics. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
+    body: "This website uses Google Analytics to count visits, which sets cookies and sends Google your page views, rough location and device type. It never sees anything from the app. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
   },
 ];
 
