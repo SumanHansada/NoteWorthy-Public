@@ -87,11 +87,12 @@ export function Hero() {
           </div>
 
           {/* On a phone there is no spare edge for the floating badges, so
-              they sit here under the buttons instead, side by side while they
-              fit and stacked once they do not. */}
+              they sit here under the buttons instead, always on one line. Side
+              by side they are about 8.6 heights wide, so the height follows
+              the viewport to fit inside the hero's 20px gutters, up to 48px. */}
           <LaunchBadges
-            className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:hidden"
-            badgeClassName="h-12"
+            className="mt-6 flex flex-nowrap items-center justify-center gap-2 lg:hidden"
+            badgeClassName="h-[min(3rem,calc(11.25vw-6px))]"
           />
 
           {/* The App Clip only opens on an iPhone or iPad, so everyone else
