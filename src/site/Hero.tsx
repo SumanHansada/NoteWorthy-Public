@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AppStoreBadge, CopyCommand, CountUp } from "./Bits";
+import { AppStoreBadge, CopyCommand, CountUp, LaunchBadges } from "./Bits";
 import { BREW_INSTALL, FILM, LINKS, MAC_APP_STORE_LIVE, PILLARS } from "./data";
 import { AccentPicker } from "./theme";
 
@@ -85,6 +85,14 @@ export function Hero() {
               See How it Works
             </a>
           </div>
+
+          {/* On a phone there is no spare edge for the floating badges, so
+              they sit here under the buttons instead, side by side while they
+              fit and stacked once they do not. */}
+          <LaunchBadges
+            className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:hidden"
+            badgeClassName="h-12"
+          />
 
           {/* The App Clip only opens on an iPhone or iPad, so everyone else
               never sees the offer. */}

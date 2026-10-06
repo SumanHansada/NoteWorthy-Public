@@ -23,6 +23,16 @@ export const LINKS = {
   github: "https://github.com/sumanhansada",
   linkedin: "https://www.linkedin.com/in/sumanhansada/",
   x: "https://x.com/SumanHansada",
+  // The Peerlist Launchpad listing, and the badge image Peerlist draws for it
+  // with a live upvote count. The badge comes as `theme=light` or `theme=dark`.
+  peerlist: "https://peerlist.io/sumanhansada/project/noteworthy--smart-notes-entirely-ondevice",
+  peerlistBadge:
+    "https://peerlist.io/api/v1/projects/embed/PRJHR8DNDGG988AED2E9R69G97RPKD?showUpvote=true&theme=",
+  // The same for Product Hunt, whose badge comes as `theme=light` or `theme=dark`.
+  productHunt:
+    "https://www.producthunt.com/products/noteworthy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-noteworthy-2",
+  productHuntBadge:
+    "https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1263693&theme=",
   // The notarized Mac build as a DMG. GitHub's `latest/download` path follows
   // whichever release is marked Latest, and the file keeps the same name every
   // release, so this never needs changing.
@@ -323,7 +333,7 @@ export const PRIVACY_POLICY: PolicyItem[] = [
   },
   {
     title: "This website",
-    body: "This website uses Google Analytics to count visits, which sets cookies and sends Google your page views, rough location and device type. It never sees anything from the app. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
+    body: "This website uses Google Analytics to count visits, which sets cookies and sends Google your page views, rough location and device type. It never sees anything from the app. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The Peerlist and Product Hunt launch badges are images loaded from those sites. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
   },
 ];
 

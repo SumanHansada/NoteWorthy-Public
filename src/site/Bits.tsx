@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { LINKS } from "./data";
 import { useTheme } from "./theme";
 
 /**
@@ -216,6 +217,49 @@ export function AppStoreBadge({ className = "", mac = false }: { className?: str
         {mac ? "Mac App Store" : "App Store"}
       </text>
     </svg>
+  );
+}
+
+/**
+ * The launch badges, Product Hunt and Peerlist Launchpad, with their live
+ * vote counts.
+ *
+ * Both sites draw them in two colourways, so they follow the page's scheme the
+ * same way the App Store badge does rather than the OS setting. Each badge
+ * keeps its own artwork's proportions, so only the height is set here.
+ */
+export function LaunchBadges({ className = "", badgeClassName = "" }: { className?: string; badgeClassName?: string }) {
+  const { scheme } = useTheme();
+  const badges = [
+    {
+      href: LINKS.productHunt,
+      src: `${LINKS.productHuntBadge}${scheme}`,
+      label: "NoteWorthy on Product Hunt",
+      alt: "NoteWorthy - Notes supercharged with AI, all on-device | Product Hunt",
+    },
+    {
+      href: LINKS.peerlist,
+      src: `${LINKS.peerlistBadge}${scheme}`,
+      label: "NoteWorthy on Peerlist Launchpad",
+      alt: "NoteWorthy — Smart notes, entirely on-device, on Peerlist Launchpad",
+    },
+  ];
+
+  return (
+    <div className={className}>
+      {badges.map((b) => (
+        <a
+          key={b.href}
+          href={b.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label={b.label}
+          className={`block transition hover:opacity-85 ${badgeClassName}`}
+        >
+          <img src={b.src} alt={b.alt} className="block h-full w-auto" />
+        </a>
+      ))}
+    </div>
   );
 }
 
