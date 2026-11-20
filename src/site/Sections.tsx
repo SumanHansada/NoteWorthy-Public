@@ -215,7 +215,7 @@ export function Features() {
       <p className="mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
         NoteWorthy writes your titles, summarizes your notes, cleans up your
         formatting and files everything into the right place. All of it runs on
-        your own iPhone, iPad or Mac.
+        your own iPhone, iPhone Duo, iPad or Mac.
       </p>
 
       <div className="mt-14 space-y-20 sm:mt-20 sm:space-y-32">
@@ -262,14 +262,30 @@ export function Features() {
           own gallery of the same phone screens over again. */}
       <div id="screens" className="mt-20 scroll-mt-24 sm:mt-32">
         <h3 className="text-2xl font-bold tracking-tight text-balance sm:text-4xl">
-          Universal for iPhone, iPad and Mac
+          Universal for iPhone, iPad, Mac and iPhone Duo
         </h3>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
-          Sticky notes on your iPhone, a sidebar and a note board on iPad, and
-          on the Mac a notebook that waits on the edge of your screen. The same
-          library everywhere. These follow whichever appearance you picked
-          above.
+          Sticky notes on your iPhone, a sidebar and a note board on iPad, a
+          notebook on the Mac that waits on the edge of your screen, and on
+          iPhone Duo a notebook that opens like one. The same library
+          everywhere, and optional iCloud Sync to keep it up to date. The Mac
+          and iPad shots follow whichever appearance you picked above.
         </p>
+
+        <figure className="mt-8 sm:mt-10">
+          <img
+            src="shots/duo/spread.webp"
+            width={1800}
+            height={1303}
+            loading="lazy"
+            alt="iPhone Duo opened flat: the Tasks page on the left and a note on the right, either side of the binding"
+            className="mx-auto w-full max-w-3xl rounded-3xl"
+          />
+          <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
+            iPhone Duo: a notebook that opens like one, with index tabs and a
+            column of controls down the side
+          </figcaption>
+        </figure>
 
         <figure className="mt-8 sm:mt-10">
           <DeviceMock
@@ -280,6 +296,20 @@ export function Features() {
           />
           <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
             Mac: your labels on the edge of the screen, one click away
+          </figcaption>
+        </figure>
+
+        <figure className="mt-10 sm:mt-14">
+          <img
+            src="shots/mac/classic-work.webp"
+            width={2000}
+            height={958}
+            loading="lazy"
+            alt="Mac, Classic look: the Work notebook with a spiral binding and index tabs down the right edge"
+            className="mx-auto w-full max-w-4xl rounded-3xl"
+          />
+          <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
+            Mac, Classic look: the same notebook with a spiral binding and index tabs
           </figcaption>
         </figure>
 
@@ -426,12 +456,14 @@ export function Privacy() {
           There is no server to trust.
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
-          Not "we don't look at your notes". The app makes no network requests
-          at all. No account to create, no connection required. Privacy here is
-          a property of the build rather than a promise in a policy.
+          Not "we don't look at your notes". Out of the box the app makes no
+          network requests at all. No account to create, no connection
+          required. The one exception is iCloud Sync, which is off until you
+          turn it on and then runs through your own iCloud account, never a
+          server of ours.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-2.5">
-          {["No accounts", "No tracking", "No analytics", "No uploads", "File protection", "Face ID lock"].map(
+          {["No accounts", "No tracking", "No analytics", "No servers of ours", "File protection", "Face ID lock"].map(
             (t) => (
               <span
                 key={t}
@@ -520,7 +552,7 @@ export function ComingSoon() {
         Coming Soon
       </span>
       <h2 className="mt-3 max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
-        Two more, on the same terms.
+        One more, on the same terms.
       </h2>
 
       <div className="mt-10 grid gap-6 sm:mt-14 md:grid-cols-2 lg:gap-8">

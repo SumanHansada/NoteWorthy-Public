@@ -44,7 +44,8 @@ export function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted sm:text-xl">
-            Available for iPhone, iPad and Mac.
+            Available for iPhone, iPad and Mac.{" "}
+            <span className="font-semibold whitespace-nowrap text-fg">Now for iPhone Duo.</span>
           </p>
 
           {/* Apple's badge is fixed artwork, 135 x 40, so the button beside it

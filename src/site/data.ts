@@ -60,7 +60,7 @@ export const MAC_APP_STORE_LIVE = false;
 // Both cuts are the same edit to the frame, so a timestamp from one loop is
 // the same moment in either upload.
 export const FILM = {
-  title: "NoteWorthy: AI Notes, Private by Design | iPhone, iPad & Mac",
+  title: "NoteWorthy: AI Notes, Private by Design | iPhone, iPad, Mac & iPhone Duo",
   wide: {
     youtube: "4ylp5x53fYA",
     src: "video/everywhere-1080.mp4",
@@ -188,7 +188,7 @@ export const FEATURES: Feature[] = [
     id: "yours",
     eyebrow: "Yours alone",
     title: "Private because it cannot be otherwise",
-    body: "There is no server to trust, because the app makes no network requests at all. Privacy here is a property of the build rather than a promise.",
+    body: "There is no server to trust, because the app makes no network requests unless you turn on iCloud Sync, and that runs through your own iCloud account. Privacy here is a property of the build rather than a promise.",
     points: [
       "Lock the app with Face ID",
       "Notes written to disk with file protection",
@@ -262,16 +262,12 @@ export const SCATTER = [
   },
 ];
 
+// iCloud Sync shipped in 2.1, so only Shared Notes is still to come.
 export const COMING_SOON: { icon: "cloud" | "people"; title: string; body: string }[] = [
-  {
-    icon: "cloud",
-    title: "iCloud Sync",
-    body: "Your notes on every device, through your own iCloud account. Nothing passes through our servers.",
-  },
   {
     icon: "people",
     title: "Shared Notes",
-    body: "Hand a note, or a whole label, to someone else over that same private channel.",
+    body: "Hand a note, or a whole label, to someone else over the same private iCloud channel as sync.",
   },
 ];
 
@@ -289,7 +285,7 @@ export const TAGS = [
  *
  * Change the date whenever the text changes.
  */
-export const PRIVACY_UPDATED = "29 September 2026";
+export const PRIVACY_UPDATED = "20 November 2026";
 export const PRIVACY_CHANGES =
   `If any of this changes, this page changes first, with a new date. Questions about privacy, or anything else: ${CONTACT_EMAIL}.`;
 
@@ -302,11 +298,15 @@ export type PolicyItem = {
 export const PRIVACY_POLICY: PolicyItem[] = [
   {
     title: "What the app collects",
-    body: "Nothing. There is no account, no analytics, no advertising and no crash reporter of our own. The app makes no network requests, so your notes have nowhere to go. We never see them.",
+    body: "Nothing. There is no account, no analytics, no advertising and no crash reporter of our own. Unless you turn on iCloud Sync, the app makes no network requests, so your notes have nowhere to go. We never see them.",
   },
   {
     title: "Where your notes live",
-    body: "On your device, in the app's own storage. On iPhone and iPad they are written with Apple's file protection. On a Mac they stay inside the app's sandbox.",
+    body: "On your device, in the app's own storage. On iPhone, iPhone Duo and iPad they are written with Apple's file protection. On a Mac they stay inside the app's sandbox.",
+  },
+  {
+    title: "iCloud Sync",
+    body: "Optional, free and off by default. If you turn it on, your notes, labels and images are kept up to date across your devices through your own iCloud account, in your private iCloud database under Apple's iCloud terms. They do not pass through any server of ours, and we cannot read them.",
   },
   {
     title: "Permissions it may ask for",
@@ -329,7 +329,7 @@ export const PRIVACY_POLICY: PolicyItem[] = [
   },
   {
     title: "Coming later",
-    body: "iCloud Sync and Shared Notes, when they ship, will go through your own iCloud account under Apple's iCloud terms, not through a server of ours. Both are opt-in, and this page will change before they do.",
+    body: "Shared Notes, when it ships, will go through your own iCloud account under Apple's iCloud terms, not through a server of ours. It will be opt-in, and this page will change before it does.",
   },
   {
     title: "This website",
@@ -344,11 +344,11 @@ export const PRIVACY_POLICY: PolicyItem[] = [
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "Is NoteWorthy free?",
-    a: "Yes. Everything it does today is free, with no ads and no subscription. iCloud Sync and Shared Notes, when they arrive, will be a single one-time unlock. Everything that happens on your device stays free.",
+    a: "Yes. Everything it does today is free, with no ads and no subscription, including iCloud Sync. Shared Notes, when it arrives, will be a single one-time unlock. Everything that happens on your device stays free.",
   },
   {
     q: "What do I need to run it?",
-    a: "An iPhone or iPad on iOS or iPadOS 26 or later, or a Mac with Apple silicon on macOS 26 or later. It is one Universal Purchase, so the same app covers all three.",
+    a: "An iPhone, iPhone Duo or iPad on iOS or iPadOS 26 or later, or a Mac with Apple silicon on macOS 26 or later. It is one Universal Purchase, so the same app covers all of them.",
   },
   {
     q: "Do I need Apple Intelligence?",
@@ -356,15 +356,19 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Does it work offline?",
-    a: "Always. It never goes online in the first place, so airplane mode changes nothing.",
+    a: "Always. Writing, filing and search never need a connection, so airplane mode changes nothing. The only thing that talks to the network is iCloud Sync, if you switch it on, and it catches up when you are back online.",
   },
   {
-    q: "How can I check that it makes no network requests?",
-    a: "On a Mac the app is sandboxed without the network entitlement, so macOS itself would refuse any connection. To see it for yourself, run `codesign -d --entitlements - /Applications/NoteWorthy.app` and the list shows the sandbox and no network key. On iPhone and iPad, turn on App Privacy Report under Settings, Privacy & Security, and NoteWorthy never shows up under network activity.",
+    q: "Does it send my notes anywhere?",
+    a: "No. There is no server of ours to send them to, and the AI runs on your device. The one exception is iCloud Sync, which is off by default and, once on, goes through your own iCloud account to your own devices.",
   },
   {
     q: "Do my notes sync between devices?",
-    a: "Not yet. iCloud Sync is coming, through your own iCloud account rather than a server of ours. Until then each device keeps its own notes, and you can move one across by exporting it as Markdown.",
+    a: "Yes, if you want them to. iCloud Sync arrived in version 2.1. Turn it on in Settings and your notes stay up to date across your iPhone, iPad and Mac through your own iCloud account. It is free and off by default, and you can still move a single note across by exporting it as Markdown.",
+  },
+  {
+    q: "Does it work on iPhone Duo?",
+    a: "Yes. On iPhone Duo the notes open as a notebook, with index tabs and a column of controls down the side, and it adapts as you fold and unfold the phone.",
   },
   {
     q: "Can I take my notes somewhere else?",
