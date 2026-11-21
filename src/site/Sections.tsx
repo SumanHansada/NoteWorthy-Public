@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NoteCard } from "./Bits";
 import { DeviceMock } from "./DeviceMock";
+import { DuoScroll } from "./DuoScroll";
 import {
   CONTACT_EMAIL,
   COMING_SOON,
@@ -273,14 +274,7 @@ export function Features() {
         </p>
 
         <figure className="mt-8 sm:mt-10">
-          <img
-            src="shots/duo/spread.webp"
-            width={1800}
-            height={1303}
-            loading="lazy"
-            alt="iPhone Duo opened flat: the Tasks page on the left and a note on the right, either side of the binding"
-            className="mx-auto w-full max-w-3xl rounded-3xl"
-          />
+          <DuoScroll />
           <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
             iPhone Duo: a notebook that opens like one, with index tabs and a
             column of controls down the side
@@ -288,28 +282,16 @@ export function Features() {
         </figure>
 
         <figure className="mt-8 sm:mt-10">
-          <DeviceMock
-            name="01-tasks"
-            kind="mac"
-            alt="Mac: the Tasks board, open from the rail of labels on the edge of the screen"
-            className="mx-auto w-full max-w-4xl"
-          />
-          <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
-            Mac: your labels on the edge of the screen, one click away
-          </figcaption>
-        </figure>
-
-        <figure className="mt-10 sm:mt-14">
           <img
-            src="shots/mac/classic-work.webp"
+            src="shots/mac/classic-work-cutout.webp"
             width={2000}
             height={958}
             loading="lazy"
             alt="Mac, Classic look: the Work notebook with a spiral binding and index tabs down the right edge"
-            className="mx-auto w-full max-w-4xl rounded-3xl"
+            className="mx-auto w-full max-w-6xl"
           />
           <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
-            Mac, Classic look: the same notebook with a spiral binding and index tabs
+            Mac: your labels on the edge of the screen, one click away
           </figcaption>
         </figure>
 
