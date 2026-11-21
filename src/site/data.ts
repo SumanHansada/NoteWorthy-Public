@@ -28,6 +28,9 @@ export const LINKS = {
   peerlist: "https://peerlist.io/sumanhansada/project/noteworthy--smart-notes-entirely-ondevice",
   peerlistBadge:
     "https://peerlist.io/api/v1/projects/embed/PRJHR8DNDGG988AED2E9R69G97RPKD?showUpvote=true&theme=",
+  // EarlyHound's two badges (a live counter and an award), `kind=` and `theme=`.
+  earlyHound: "https://earlyhound.com/products/noteworthy?ref=badge",
+  earlyHoundBadge: "https://earlyhound.com/api/badge/noteworthy?",
   // The same for Product Hunt, whose badge comes as `theme=light` or `theme=dark`.
   productHunt:
     "https://www.producthunt.com/products/noteworthy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-noteworthy-2",

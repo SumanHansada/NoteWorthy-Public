@@ -301,8 +301,8 @@ export function AppStoreBadge({ className = "", mac = false }: { className?: str
 }
 
 /**
- * The launch badges, Product Hunt and Peerlist Launchpad, with their live
- * vote counts.
+ * The launch badges, Product Hunt, Peerlist Launchpad and EarlyHound, with
+ * their live vote counts.
  *
  * Both sites draw them in two colourways, so they follow the page's scheme the
  * same way the App Store badge does rather than the OS setting. Each badge
@@ -323,13 +323,25 @@ export function LaunchBadges({ className = "", badgeClassName = "" }: { classNam
       label: "NoteWorthy on Peerlist Launchpad",
       alt: "NoteWorthy — Smart notes, entirely on-device, on Peerlist Launchpad",
     },
+    {
+      href: LINKS.earlyHound,
+      src: `${LINKS.earlyHoundBadge}kind=counter&theme=${scheme}`,
+      label: "NoteWorthy on EarlyHound",
+      alt: "NoteWorthy on EarlyHound",
+    },
+    {
+      href: LINKS.earlyHound,
+      src: `${LINKS.earlyHoundBadge}kind=award&theme=${scheme}`,
+      label: "NoteWorthy on EarlyHound, award",
+      alt: "NoteWorthy on EarlyHound",
+    },
   ];
 
   return (
     <div className={className}>
       {badges.map((b) => (
         <a
-          key={b.href}
+          key={b.src}
           href={b.href}
           target="_blank"
           rel="noreferrer noopener"

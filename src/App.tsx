@@ -33,9 +33,9 @@ export default function App() {
       </div>
       {/* Pinned to the corner on a wide screen, stacked with Product Hunt on
           top. Phones get them in the hero instead. Each at its embed code's
-          own height: 54px for Product Hunt, 72px for Peerlist. */}
+          own height: 54px for Product Hunt and EarlyHound, 72px for Peerlist. */}
       <LaunchBadges
-        className="fixed bottom-5 left-5 z-40 hidden flex-col items-start gap-2.5 lg:flex [&>a:first-child]:h-[54px] [&>a:last-child]:h-[72px]"
+        className="fixed bottom-5 left-5 z-40 hidden flex-col items-start gap-2.5 lg:flex [&>a]:h-[54px] [&>a:nth-child(2)]:h-[72px]"
       />
     </ThemeProvider>
   );
