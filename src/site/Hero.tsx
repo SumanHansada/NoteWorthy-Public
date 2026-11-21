@@ -3,19 +3,33 @@ import { AppStoreBadge, CopyCommand, CountUp, LaunchBadges } from "./Bits";
 import { BREW_INSTALL, FILM, LINKS, MAC_APP_STORE_LIVE, PILLARS } from "./data";
 import { AccentPicker } from "./theme";
 
+/**
+ * Which store badge to lead with. iPhone, iPad and iPhone Duo are all "ios"
+ * (the Duo is an iPhone, so it should say so in its user agent), a Mac is "mac", and
+ * anything else (Windows, Linux, Android) can't install either, so it is shown
+ * both. Read once, synchronously, so the right badge is there on first paint.
+ */
+type Device = "ios" | "mac" | "other";
+function detectDevice(): Device {
+  if (typeof navigator === "undefined") return "other";
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/.test(ua)) return "ios";
+  // An iPad on iPadOS 13+ reports itself as a Mac, and gives itself away
+  // only by having a touch screen.
+  if (ua.includes("Macintosh")) return navigator.maxTouchPoints > 1 ? "ios" : "mac";
+  return "other";
+}
+
 export function Hero() {
   const [motionOK, setMotionOK] = useState(true);
-  const [isIOS, setIsIOS] = useState(false);
+  const [device] = useState<Device>(detectDevice);
+  const isIOS = device === "ios";
+  const showAppStore = device !== "mac" || !MAC_APP_STORE_LIVE;
+  const showMacStore = MAC_APP_STORE_LIVE && device !== "ios";
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const forcedStatic = new URLSearchParams(window.location.search).has("static");
     setMotionOK(!reduced && !forcedStatic);
-    // An iPad on iPadOS 13+ reports itself as a Mac, and gives itself away
-    // only by having a touch screen.
-    setIsIOS(
-      /iPhone|iPad|iPod/.test(navigator.userAgent) ||
-        (navigator.userAgent.includes("Macintosh") && navigator.maxTouchPoints > 1),
-    );
   }, []);
   return (
     <header className="relative overflow-hidden px-5 pt-32 pb-16 sm:px-8 sm:pt-44 lg:pb-24">
@@ -55,6 +69,7 @@ export function Hero() {
               `flex-wrap` rather than a breakpoint, so the pair drops to
               stacked on its own when there stops being room. */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            {showAppStore && (
             <a
               href={LINKS.appStore}
               target="_blank"
@@ -67,8 +82,9 @@ export function Hero() {
                   the corners, so the edge is drawn again along the new curve. */}
               <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#A6A6A6]" />
             </a>
+            )}
             {/* 156/40 wide, so the width is the height times 3.9. */}
-            {MAC_APP_STORE_LIVE && (
+            {showMacStore && (
               <a
                 href={LINKS.macAppStore}
                 target="_blank"

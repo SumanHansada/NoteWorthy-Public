@@ -86,6 +86,86 @@ export type ScatterNote = {
   remind?: string;
 };
 
+/**
+ * A Classic note, as the Mac and iPhone Duo draw it: a tinted card with a pin,
+ * the label in small italic capitals over a hairline rule, and the title and
+ * text in the app's handwriting face (Caveat).
+ */
+// The Classic stickies are the same paper in light and dark, so they do not
+// follow the scheme: a lighter top easing to a deeper bottom, with dark ink.
+const STICKY: Record<string, { top: string; bottom: string }> = {
+  butter: { top: "#FAE98F", bottom: "#F3D660" },
+  blossom: { top: "#F9C4D6", bottom: "#F4A9C4" },
+  sky: { top: "#D3E3F8", bottom: "#B9D1F2" },
+  mint: { top: "#C6EAD2", bottom: "#A9DBBC" },
+  lavender: { top: "#DED2F6", bottom: "#C9B9EF" },
+  graphite: { top: "#E6E6EB", bottom: "#D2D2D9" },
+};
+
+export function ClassicNoteCard({ note, className = "" }: { note: ScatterNote; className?: string }) {
+  const t = TINTS[note.tint] ?? TINTS.butter;
+  const paper = STICKY[note.tint] ?? STICKY.butter;
+  const fg = t.fgLight;
+  const hand = { fontFamily: '"Caveat", "Bradley Hand", "Segoe Print", cursive' } as const;
+  return (
+    <div className={`relative ${className}`} aria-hidden>
+      <div
+        className="relative flex min-h-[9.25rem] flex-col rounded-[3px] px-4 pt-3 pb-3.5"
+        style={{ background: `linear-gradient(180deg, ${paper.top} 0%, ${paper.bottom} 100%)`, color: fg }}
+      >
+        <div className="flex items-center gap-1.5 border-b pb-1.5" style={{ borderColor: `${fg}2e` }}>
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: t.dot }} />
+          <span className="text-[0.6rem] tracking-[0.12em] uppercase italic" style={{ opacity: 0.75 }}>
+            {note.label}
+          </span>
+        </div>
+
+        <h4 className="mt-2 text-[1.35rem] leading-[1.05] font-bold" style={hand}>
+          {note.title}
+        </h4>
+
+        {note.body && (
+          <p className="mt-1 text-[1.08rem] leading-[1.18]" style={{ ...hand, opacity: 0.82 }}>
+            {note.body}
+          </p>
+        )}
+
+        {note.todos && (
+          <ul className="mt-1.5 space-y-0.5">
+            {note.todos.map((td) => (
+              <li key={td.text} className="flex items-center gap-2 text-[1.08rem] leading-[1.18]" style={hand}>
+                <span
+                  className="grid h-3 w-3 shrink-0 place-items-center rounded-[3px] border text-[8px] leading-none"
+                  style={{ borderColor: `${fg}88`, background: td.done ? t.dot : "transparent", color: "#fff", fontFamily: "system-ui" }}
+                >
+                  {td.done ? "✓" : ""}
+                </span>
+                <span style={{ textDecoration: td.done ? "line-through" : undefined, opacity: td.done ? 0.55 : 1 }}>
+                  {td.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {note.remind && (
+          <div
+            className="flex items-center justify-between rounded-sm px-2 py-1 text-[0.58rem]"
+            style={{ background: `${fg}14`, marginTop: "0.55rem" }}
+          >
+            <span className="flex items-center gap-1">
+              <span style={{ color: t.dot }}>✦</span> {note.remind}
+            </span>
+            <span className="rounded-full px-1.5 font-semibold" style={{ background: t.dot, color: "#fff" }}>
+              Yes
+            </span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /** One note, drawn the way the app draws it. */
 export function NoteCard({ note, className = "" }: { note: ScatterNote; className?: string }) {
   const { scheme } = useTheme();

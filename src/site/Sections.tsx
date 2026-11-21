@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { NoteCard } from "./Bits";
+import { ClassicNoteCard, NoteCard } from "./Bits";
 import { DeviceMock } from "./DeviceMock";
 import { DuoScroll } from "./DuoScroll";
 import {
@@ -209,7 +209,12 @@ export function Features() {
       id="features"
       className="relative mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24"
     >
-      <Scatter />
+      <p
+        className="mb-3 inline-block -rotate-2 text-3xl leading-none font-bold text-accent-ink sm:mb-4 sm:text-4xl"
+        style={{ fontFamily: '"Caveat", "Bradley Hand", "Segoe Print", cursive' }}
+      >
+        Now for iPhone Duo as well
+      </p>
       <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-balance sm:text-5xl">
         You write the note. It does the rest.
       </h2>
@@ -218,6 +223,14 @@ export function Features() {
         formatting and files everything into the right place. All of it runs on
         your own iPhone, iPhone Duo, iPad or Mac.
       </p>
+
+      <figure className="mt-10 sm:mt-14">
+        <DuoScroll />
+        <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
+          iPhone Duo: a notebook that opens like one, with index tabs and a
+          column of controls down the side
+        </figcaption>
+      </figure>
 
       <div className="mt-14 space-y-20 sm:mt-20 sm:space-y-32">
         {FEATURES.map((f, i) => (
@@ -274,21 +287,13 @@ export function Features() {
         </p>
 
         <figure className="mt-8 sm:mt-10">
-          <DuoScroll />
-          <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
-            iPhone Duo: a notebook that opens like one, with index tabs and a
-            column of controls down the side
-          </figcaption>
-        </figure>
-
-        <figure className="mt-8 sm:mt-10">
           <img
             src="shots/mac/classic-work-cutout.webp"
-            width={2000}
-            height={958}
+            width={2118}
+            height={1286}
             loading="lazy"
             alt="Mac, Classic look: the Work notebook with a spiral binding and index tabs down the right edge"
-            className="mx-auto w-full max-w-6xl"
+            className="relative left-1/2 w-[min(100vw-2rem,80rem)] max-w-none -translate-x-1/2"
           />
           <figcaption className="mt-3 text-center text-xs text-fg-faint sm:text-sm">
             Mac: your labels on the edge of the screen, one click away
@@ -314,45 +319,86 @@ export function Features() {
 }
 
 /**
- * Notes pinned in the page's side margins.
+ * Classic and modern notes down both sides of the whole page, behind
+ * everything.
  *
- * A row across the middle was the first attempt and it read as content, which
- * these are not. They belong in the gutters either side of the 72rem column,
- * behind everything, drifting past as you scroll. Hidden below 1280px, where
- * there are no gutters to put them in.
+ * One layer for the page (see App) rather than one per section, so the notes
+ * run unbroken from the hero to the footer. It is `z-index: -1` inside an
+ * isolated wrapper: above the page's background, below every section's
+ * content. A section with a solid band (Models, Privacy) simply covers them.
+ *
+ * They are laid out in pixels, not percentages, so the density is the same on
+ * a short page and a long one, and the layer clips whatever runs past the end.
+ * Width follows the gutter beside the 72rem column, the window edge crops
+ * them, and the set is hidden below 1400px where there is no gutter.
+ *
+ * Cheap on purpose: no blur, no shadow, and it animates `transform` alone
+ * (see `.note-drift`).
  */
-export function Scatter() {
-  // left/right and a vertical offset down the features column.
-  const spots = [
-    { side: "left", top: "6%", rotate: "-3.5deg" },
-    { side: "right", top: "21%", rotate: "2.8deg" },
-    { side: "left", top: "42%", rotate: "2.2deg" },
-    { side: "right", top: "58%", rotate: "-2.6deg" },
-    { side: "left", top: "76%", rotate: "-1.8deg" },
-  ] as const;
+const NOTE_PITCH = 540; // px between notes down one side
+const NOTE_ROWS = 26; // enough for a very long page; the layer clips the rest
+const TILTS = [-4, 3, 2.5, -3, -2, 3.5, 3, -2.5, 4, -3.5];
+const INSETS = ["-1rem", "-1.75rem", "-0.5rem", "-1.25rem"];
+
+export function PageNotes({ notes = SCATTER }: { notes?: typeof SCATTER }) {
+  const items = Array.from({ length: NOTE_ROWS * 2 }, (_, k) => {
+    const side = k % 2 === 0 ? "left" : "right";
+    const row = Math.floor(k / 2);
+    return {
+      side,
+      // The right-hand column sits half a pitch down from the left, so the
+      // two sides never line up.
+      top: 40 + row * NOTE_PITCH + (side === "right" ? NOTE_PITCH / 2 : 0),
+      tilt: TILTS[(k * 3) % TILTS.length],
+      inset: INSETS[(k * 5) % INSETS.length],
+      far: k % 3 === 1,
+      // Down each side the two looks alternate, so the margins carry both.
+      modern: Math.floor(k / 2) % 2 === 1,
+      dur: 10 + ((k * 7) % 5),
+      delay: -((k * 3) % 11),
+      note: notes[(k * 3 + (side === "right" ? 1 : 0)) % notes.length],
+    } as const;
+  });
 
   return (
-    <div className="pointer-events-none absolute inset-0 hidden 2xl:block" aria-hidden>
-      {SCATTER.map((n, i) => {
-        const spot = spots[i % spots.length];
-        return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 hidden overflow-hidden min-[1400px]:block"
+      style={{ zIndex: -1 }}
+    >
+      {items.map((n) => (
+        <div
+          key={`${n.side}-${n.top}`}
+          className="absolute"
+          style={{
+            top: n.top,
+            [n.side]: n.inset,
+            width: "min(16rem, calc((100vw - 72rem) / 2 + 1.25rem))",
+            // Depth without blur: the far ones are fainter and a little
+            // smaller, and sit under the near ones.
+            opacity: n.far ? 0.78 : 1,
+            zIndex: n.far ? 0 : 1,
+            scale: n.far ? "0.93" : undefined,
+          }}
+        >
           <div
-            key={n.title}
-            className="absolute flex w-[16.5rem] flex-col opacity-60 transition-opacity hover:opacity-100"
-            style={{
-              top: spot.top,
-              // Negative, because this sits inside the 72rem content column:
-              // `left: 0` is the column's edge, not the window's. The first
-              // version used a positive offset and the notes landed on top of
-              // the text instead of beside it.
-              [spot.side]: "-18rem",
-              transform: `rotate(${spot.rotate})`,
-            }}
+            className="note-drift"
+            style={
+              {
+                "--r": `${n.tilt}deg`,
+                "--d": `${n.dur}s`,
+                "--dl": `${n.delay}s`,
+              } as React.CSSProperties
+            }
           >
-            <NoteCard note={n} />
+            {n.modern ? (
+              <NoteCard note={n.note} className="!shadow-none" />
+            ) : (
+              <ClassicNoteCard note={n.note} />
+            )}
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 }

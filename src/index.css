@@ -199,3 +199,43 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Side notes drift a few pixels and tilt a touch, out of step with each
+   other. Transform only, so it stays on the compositor. The reduced-motion
+   rule below stops it. */
+.note-drift {
+  transform: rotate(var(--r, 0deg));
+  will-change: transform;
+  animation: note-drift var(--d, 12s) ease-in-out var(--dl, 0s) infinite alternate;
+}
+
+@keyframes note-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(var(--r, 0deg));
+  }
+  to {
+    transform: translate3d(0, -14px, 0) rotate(calc(var(--r, 0deg) + 1.4deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note-drift {
+    animation: none;
+  }
+}
+
+/* The app's handwriting face for the Classic notes in the side margins.
+   Latin only, about 47 KB each, and fetched only where a note is drawn
+   (they are display: none below 1400px, so phones never ask for them). */
+@font-face {
+  font-family: "Caveat";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Caveat-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Caveat";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Caveat-Bold.woff2") format("woff2");
+}

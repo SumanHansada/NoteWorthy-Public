@@ -222,42 +222,62 @@ export const MODELS = [
  */
 export const SCATTER = [
   {
-    tint: "mint",
-    label: "Follow-ups",
-    title: "Reply to Theo",
-    body: "He sent the signed statement of work on Thursday and it has been sitting all week.",
+    tint: "sky",
+    label: "Meeting",
+    title: "Call with Marcus",
+    body: "Wants the revised quote by Friday.",
   },
   {
     tint: "butter",
     label: "Tasks",
-    title: "Market",
+    title: "Renew passport",
+    body: "Photos at the pharmacy on Monday.",
+  },
+  {
+    tint: "lavender",
+    label: "Trip",
+    title: "Kyoto in April",
     todos: [
-      { text: "Tomatoes", done: false },
-      { text: "Basil", done: true },
-      { text: "Sourdough", done: false },
+      { text: "Book the ryokan in Gion", done: true },
+      { text: "JR Pass", done: true },
+      { text: "Tea ceremony tickets", done: false },
+      { text: "Pocket Wi-Fi", done: false },
     ],
   },
   {
     tint: "blossom",
-    label: "Admin",
-    title: "Dentist + insurance",
+    label: "Tasks",
+    title: "Dentist, Thursday 4:30",
+    body: "Bring the insurance card.",
+    remind: "Remind me before Thursday?",
+  },
+  {
+    tint: "mint",
+    label: "Errands",
+    title: "Groceries",
     todos: [
-      { text: "Rebook cleaning", done: false },
-      { text: "Check renewal cover", done: false },
+      { text: "Oat milk", done: false },
+      { text: "Miso paste", done: true },
+      { text: "Coffee beans", done: false },
     ],
   },
   {
-    tint: "sky",
-    label: "Travel",
-    title: "Pack for Lisbon",
-    body: "Passport, chargers, the good sunscreen.",
-    remind: "Remind me before Friday?",
-  },
-  {
-    tint: "lavender",
+    tint: "butter",
     label: "Ideas",
     title: "Sourdough starter",
     body: "Feed it Saturday morning, bake Sunday.",
+  },
+  {
+    tint: "sky",
+    label: "Follow-ups",
+    title: "Reply to Theo",
+    body: "He sent the signed statement of work on Thursday.",
+  },
+  {
+    tint: "lavender",
+    label: "Travel",
+    title: "Pack for Lisbon",
+    body: "Passport, chargers, the good sunscreen.",
   },
 ];
 

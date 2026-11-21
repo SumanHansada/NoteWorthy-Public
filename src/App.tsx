@@ -7,6 +7,7 @@ import {
   Footer,
   Models,
   Nav,
+  PageNotes,
   Privacy,
 } from "./site/Sections";
 import { ThemeProvider } from "./site/theme";
@@ -17,7 +18,8 @@ export default function App() {
       {/* `overflow-x-clip` rather than hunting the one offending element: the
           hero's decorative glow is 70rem wide by design, and any stray overflow
           on a narrow phone pushes every centred block off the right edge. */}
-      <div id="top" className="overflow-x-clip">
+      <div id="top" className="relative isolate overflow-x-clip">
+        <PageNotes />
         <Nav />
         <Hero />
         <main>
