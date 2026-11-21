@@ -48,11 +48,10 @@ export const CONTACT_EMAIL = "suman.hansada@gmail.com";
 // and installs in one command.
 export const BREW_INSTALL = "brew install --cask sumanhansada/tap/noteworthy";
 
-// The Mac app is in review for the Mac App Store, under the same listing as
-// the iPhone app (Universal Purchase), so the badge needs no new URL. Flip this
-// once the Mac version is live; until then the DMG and Homebrew are the ways
-// onto a Mac.
-export const MAC_APP_STORE_LIVE = false;
+// The Mac app is live on the Mac App Store, under the same listing as the
+// iPhone app (Universal Purchase), so the badge needs no new URL. The DMG and
+// Homebrew remain as alternatives.
+export const MAC_APP_STORE_LIVE = true;
 
 // The 90-second "Everywhere" film: iPhone, then iPad, then Mac. The hero
 // loops a muted copy from public/video; these are the YouTube uploads, for
