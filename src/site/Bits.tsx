@@ -335,12 +335,6 @@ export function LaunchBadges({ className = "", badgeClassName = "" }: { classNam
       label: "NoteWorthy on EarlyHound, award",
       alt: "NoteWorthy on EarlyHound",
     },
-    {
-      href: LINKS.launchBuff,
-      src: `${LINKS.launchBuffBadge}${scheme}.svg`,
-      label: "NoteWorthy featured on LaunchBuff",
-      alt: "Featured on LaunchBuff",
-    },
   ];
 
   return (
@@ -357,6 +351,17 @@ export function LaunchBadges({ className = "", badgeClassName = "" }: { classNam
           <img src={b.src} alt={b.alt} className="block h-full w-auto" />
         </a>
       ))}
+      {/* LaunchBuff's embed code, as they give it: the dark badge on the dark
+          page, the light one on the light page. */}
+      {scheme === "dark" ? (
+        <a href={LINKS.launchBuff} target="_blank" rel="noopener noreferrer" title="Featured on LaunchBuff">
+          <img src="https://launchbuff.com/badge-featured-dark.svg" alt="Featured on LaunchBuff" width="256" height="80" />
+        </a>
+      ) : (
+        <a href={LINKS.launchBuff} target="_blank" rel="noopener noreferrer" title="Featured on LaunchBuff">
+          <img src="https://launchbuff.com/badge-featured-light.svg" alt="Featured on LaunchBuff" width="256" height="80" />
+        </a>
+      )}
     </div>
   );
 }
