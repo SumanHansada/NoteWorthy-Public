@@ -31,6 +31,9 @@ export const LINKS = {
   // EarlyHound's two badges (a live counter and an award), `kind=` and `theme=`.
   earlyHound: "https://earlyhound.com/products/noteworthy?ref=badge",
   earlyHoundBadge: "https://earlyhound.com/api/badge/noteworthy?",
+  // LaunchBuff's featured badge, `badge-featured-light.svg` or `-dark.svg`.
+  launchBuff: "https://launchbuff.com/products/noteworthy-7e21hx",
+  launchBuffBadge: "https://launchbuff.com/badge-featured-",
   // The same for Product Hunt, whose badge comes as `theme=light` or `theme=dark`.
   productHunt:
     "https://www.producthunt.com/products/noteworthy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-noteworthy-2",
@@ -355,7 +358,7 @@ export const PRIVACY_POLICY: PolicyItem[] = [
   },
   {
     title: "This website",
-    body: "This website uses Google Analytics to count visits, which sets cookies and sends Google your page views, rough location and device type. It never sees anything from the app. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The Peerlist and Product Hunt launch badges are images loaded from those sites. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
+    body: "This website uses Google Analytics to count visits, which sets cookies and sends Google your page views, rough location and device type. It never sees anything from the app. Your light or dark choice is kept in your browser's local storage and never leaves it. The film is served from this site, and YouTube is only contacted if you press Watch with sound. The Peerlist, Product Hunt, EarlyHound and LaunchBuff launch badges are images loaded from those sites. The site is hosted by Netlify, which keeps standard server logs. Mac downloads, the DMG and Homebrew alike, come from GitHub.",
   },
 ];
 

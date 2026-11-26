@@ -335,6 +335,12 @@ export function LaunchBadges({ className = "", badgeClassName = "" }: { classNam
       label: "NoteWorthy on EarlyHound, award",
       alt: "NoteWorthy on EarlyHound",
     },
+    {
+      href: LINKS.launchBuff,
+      src: `${LINKS.launchBuffBadge}${scheme}.svg`,
+      label: "NoteWorthy featured on LaunchBuff",
+      alt: "Featured on LaunchBuff",
+    },
   ];
 
   return (
