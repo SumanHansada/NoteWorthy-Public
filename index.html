@@ -1,14 +1,20 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1TNWCQH669"></script>
+    <!-- Google tag (gtag.js), loaded after the page so it never competes with it. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-1TNWCQH669');
+      addEventListener('load', function () {
+        setTimeout(function () {
+          var g = document.createElement('script');
+          g.async = true;
+          g.src = 'https://www.googletagmanager.com/gtag/js?id=G-1TNWCQH669';
+          document.head.appendChild(g);
+        }, 1500);
+      });
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,12 +35,24 @@
       content="noteworthy,note worthy,noteworthy app,noteworthy notes,noteworthy ios,noteworthy iphone,noteworty,notewothy,note-worthy,noteworthy smart notes,smart notes,smart notes app,private ai notes,noteworthy notes that think,ai notes,ai notes app,ai note taking,ai note taking app,offline notes,offline notes app,offline ai,private notes,private notes app,private notes iphone,on-device ai,on device ai notes,apple intelligence,apple intelligence notes,apple intelligence app,markdown notes,markdown notes app,markdown editor ios,notes app iphone,notes app ipad,notes app mac,noteworthy mac,mac notes app,sticky notes mac,menu bar notes,homebrew,sticky notes app,note organizer,ai summarizer,summarize notes,checklist app,todo notes,no account notes app,notes without internet"
     />
     <meta name="author" content="Suman Hansada" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://noteworthy.wtf/" />
+    <link rel="alternate" type="text/plain" href="https://noteworthy.wtf/llms.txt" title="llms.txt" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+
+    <!-- The hero film's poster is the LCP element; fetch it first. -->
+    <link rel="preload" as="image" href="video/everywhere-poster-720x1280.webp" type="image/webp" media="(max-width: 639px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="video/everywhere-poster.webp" type="image/webp" media="(min-width: 640px)" fetchpriority="high" />
+    <link rel="preconnect" href="https://peerlist.io" />
+    <link rel="preconnect" href="https://earlyhound.com" />
+    <link rel="preconnect" href="https://api.producthunt.com" />
+    <link rel="preconnect" href="https://launchbuff.com" />
 
     <!-- Link previews. Absolute: crawlers will not resolve a relative og:image. -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://noteworthy.wtf/" />
     <meta property="og:site_name" content="NoteWorthy" />
+    <meta property="og:locale" content="en_US" />
     <meta
       property="og:title"
       content="NoteWorthy: Smart Notes. Private on-device AI."
@@ -47,7 +65,12 @@
       property="og:image"
       content="https://noteworthy.wtf/shots/iphone/light-02-home.png"
     />
+    <meta property="og:image:alt" content="NoteWorthy on iPhone: the home screen with notes titled, summarized and filed on device" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NoteWorthy: Smart Notes. Private on-device AI." />
+    <meta name="twitter:description" content="Write the note. NoteWorthy titles, summarizes and files it on your iPhone, iPad, Mac or iPhone Duo. No account." />
+    <meta name="twitter:image" content="https://noteworthy.wtf/shots/iphone/light-02-home.png" />
+    <meta name="twitter:site" content="@SumanHansada" />
     <meta name="twitter:creator" content="@SumanHansada" />
 
     <!-- iOS. The Smart App Banner, with the App Clip card: it opens an
@@ -81,7 +104,22 @@
         "installUrl": "https://apps.apple.com/app/id6799721933",
         "downloadUrl": "https://apps.apple.com/app/id6799721933",
         "description": "On-device AI notes for iPhone, iPad, Mac and iPhone Duo. Titles, summaries and filing are written by Apple Intelligence on your device: no account, and nothing leaves it unless you turn on optional iCloud Sync.",
-        "author": { "@type": "Person", "name": "Suman Hansada" }
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "screenshot": "https://noteworthy.wtf/shots/iphone/light-02-home.png",
+        "featureList": "On-device titles, summaries and filing with Apple Intelligence, Markdown editing, checklists, iCloud Sync, no account, works offline",
+        "author": { "@type": "Person", "name": "Suman Hansada", "url": "https://www.linkedin.com/in/sumanhansada/", "sameAs": ["https://github.com/sumanhansada", "https://x.com/SumanHansada"] }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "NoteWorthy",
+        "url": "https://noteworthy.wtf/",
+        "inLanguage": "en",
+        "publisher": { "@type": "Person", "name": "Suman Hansada" }
       }
     </script>
   </head>

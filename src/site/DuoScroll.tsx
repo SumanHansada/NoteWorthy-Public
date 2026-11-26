@@ -25,8 +25,37 @@ function useIsPhone() {
 
 const WIDE = 1.9; // canvas width in screen widths, so the open phone has room
 
+/** True once `ref` is within a screen or two of the viewport, and stays true. */
+function useNearViewport(ref: React.RefObject<HTMLElement | null>) {
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || near) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setNear(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (e) => {
+        if (e.some((x) => x.isIntersecting)) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "1200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, near]);
+  return near;
+}
+
 export function DuoScroll() {
   const phone = useIsPhone();
+  const holder = useRef<HTMLDivElement>(null);
+  // three.js and the 6 MB model are the heaviest thing on the page and sit
+  // far below the fold, so they wait until the reader is close.
+  const near = useNearViewport(holder);
   const outer = useRef<HTMLDivElement>(null);
   const pan = useRef<HTMLDivElement>(null);
 
@@ -61,7 +90,9 @@ export function DuoScroll() {
     };
   }, [phone]);
 
-  const duo = (
+  const duo = !near ? (
+    <div ref={holder} style={{ height: "100vh" }} />
+  ) : (
     <Suspense fallback={<div style={{ height: "100vh" }} />}>
       <IphoneDuoScroll
         interactionMode="scroll"

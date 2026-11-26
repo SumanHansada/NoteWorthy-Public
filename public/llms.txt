@@ -1,0 +1,17 @@
+# NoteWorthy
+
+> NoteWorthy is a notes app for iPhone, iPad, Mac and iPhone Duo. You write the note; Apple Intelligence titles, summarizes and files it on your device. No account is needed, and nothing leaves the device unless you turn on optional iCloud Sync. Notes are stored as Markdown. It is free, with no ads and no subscription.
+
+- Platforms: iOS and iPadOS 26 or later, macOS 26 or later (Apple silicon). One Universal Purchase covers all of them.
+- Price: free.
+- Privacy: no accounts, no analytics inside the app, on-device AI only.
+- Developer: Suman Hansada, an independent developer.
+
+## Links
+
+- [Website](https://noteworthy.wtf/): features, FAQ and privacy policy on one page
+- [App Store (iPhone, iPad, Mac)](https://apps.apple.com/app/id6799721933)
+- [FAQ](https://noteworthy.wtf/#faq): pricing, requirements, Apple Intelligence, iCloud Sync
+- [Privacy policy](https://noteworthy.wtf/#privacy)
+- [Mac download (DMG)](https://github.com/SumanHansada/NoteWorthy-Public/releases/latest/download/NoteWorthy.dmg)
+- Homebrew: `brew install --cask sumanhansada/tap/noteworthy`

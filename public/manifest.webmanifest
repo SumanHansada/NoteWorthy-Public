@@ -1,0 +1,10 @@
+{
+  "name": "NoteWorthy",
+  "short_name": "NoteWorthy",
+  "description": "Smart notes with private on-device AI.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fbf8f0",
+  "theme_color": "#fbf8f0",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

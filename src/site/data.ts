@@ -1,4 +1,5 @@
-import type { Scheme } from "./theme";
+// Kept local so vite.config.ts can import this file without pulling in React.
+type Scheme = "light" | "dark";
 
 /**
  * Everything the page says, in one place.

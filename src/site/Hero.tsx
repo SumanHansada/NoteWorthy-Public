@@ -74,7 +74,7 @@ export function Hero() {
               href={LINKS.appStore}
               target="_blank"
               rel="noreferrer noopener"
-              aria-label="Download NoteWorthy on the App Store"
+              aria-label="Download on the App Store"
               className="relative inline-flex h-12 w-[10.125rem] items-center justify-center overflow-hidden rounded-xl transition hover:opacity-85 sm:h-[3.25rem] sm:w-[10.97rem]"
             >
               <AppStoreBadge className="block h-full w-full" />
@@ -89,7 +89,7 @@ export function Hero() {
                 href={LINKS.macAppStore}
                 target="_blank"
                 rel="noreferrer noopener"
-                aria-label="Download NoteWorthy on the Mac App Store"
+                aria-label="Download on the Mac App Store"
                 className="inline-flex h-12 w-[11.7rem] items-center justify-center rounded-[0.64rem] transition hover:opacity-85 sm:h-[3.25rem] sm:w-[12.675rem] sm:rounded-[0.7rem]"
               >
                 <AppStoreBadge mac className="block h-full w-full" />
@@ -97,7 +97,7 @@ export function Hero() {
             )}
             <a
               href="#features"
-              className="inline-flex h-12 w-[10.125rem] cursor-pointer items-center justify-center rounded-xl border border-accent bg-accent text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[10.97rem] sm:text-base"
+              className="inline-flex h-12 w-[10.125rem] cursor-pointer items-center justify-center rounded-xl border border-[color-mix(in_srgb,var(--accent)_70%,black)] bg-[color-mix(in_srgb,var(--accent)_70%,black)] text-center text-sm font-semibold text-on-accent transition hover:opacity-90 sm:h-[3.25rem] sm:w-[10.97rem] sm:text-base"
             >
               See How it Works
             </a>
@@ -108,8 +108,8 @@ export function Hero() {
               two. Side by side each pair is about 9.3 heights wide, so the height follows
               the viewport to fit inside the hero's 20px gutters, up to 48px. */}
           <LaunchBadges
-            className="mt-6 flex flex-wrap items-center justify-center gap-2 lg:hidden"
-            badgeClassName="h-[min(3rem,calc(10.5vw-6px))]"
+            className="mt-6 flex min-h-[calc(var(--bh)*2+80px+1.5rem)] flex-wrap content-start items-center justify-center gap-2 [--bh:min(3rem,calc(10.5vw-6px))] lg:hidden"
+            badgeClassName="h-[var(--bh)]"
           />
 
           {/* The App Clip only opens on an iPhone or iPad, so everyone else

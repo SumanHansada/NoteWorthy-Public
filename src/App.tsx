@@ -1,16 +1,12 @@
+import { lazy, Suspense } from "react";
 import { LaunchBadges } from "./site/Bits";
 import { Hero } from "./site/Hero";
-import {
-  ComingSoon,
-  Faq,
-  Features,
-  Footer,
-  Models,
-  Nav,
-  PageNotes,
-  Privacy,
-} from "./site/Sections";
+import { Nav, PageNotes } from "./site/Top";
 import { ThemeProvider } from "./site/theme";
+
+// Everything below the hero loads as its own chunk, after the first screen
+// has painted, so the hero is not waiting on code it cannot show yet.
+const BelowFold = lazy(() => import("./site/BelowFold"));
 
 export default function App() {
   return (
@@ -22,14 +18,9 @@ export default function App() {
         <PageNotes />
         <Nav />
         <Hero />
-        <main>
-          <Features />
-          <Models />
-          <Privacy />
-          <ComingSoon />
-          <Faq />
-        </main>
-        <Footer />
+        <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
+          <BelowFold />
+        </Suspense>
       </div>
       {/* Pinned to the corner on a wide screen, stacked with Product Hunt on
           top. Phones get them in the hero instead. Each at its embed code's
